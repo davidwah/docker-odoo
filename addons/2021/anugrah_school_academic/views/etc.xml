@@ -1,0 +1,25 @@
+<odoo>
+	<data>
+		<record id="health_tree" model="ir.ui.view">
+			<field name="name">Health Welfare Tree</field>
+			<field name="model">asa.health_welfares</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="name"/>
+					<field name="note"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="prestige_tree" model="ir.ui.view">
+			<field name="name">Prestige Tree</field>
+			<field name="model">asa.prestiges</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="name"/>
+					<field name="note"/>
+				</tree>
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,73 @@
+<odoo>
+	<data>
+		<report id="attendance_recap_per_class" model="asw.attendance_per_class" string="Attendance Report Per Class" report_type="qweb-html" name="anugrah_school_attendance.recap_class_template"/>
+
+		<template id="recap_class_template">
+	        <t t-call="web.html_container">
+	        	<div class="article">
+		        	<div class="row text-center">
+		        		<h2>Rekap Absensi Siswa Per Kelas</h2>
+		        	</div>
+					<hr class="py-5"/>
+		        	<div class="row text-center">
+		        		<div class="col-12">Dari <b><t t-esc="datetime.datetime.strptime(date_start, '%Y-%m-%d').strftime('%d %B %Y')"/></b> Hingga <b><t t-esc="datetime.datetime.strptime(date_end, '%Y-%m-%d').strftime('%d %B %Y')"/></b></div>
+		        	</div>
+		        	<div class="row text-center">
+						<div class="col-12">Untuk Kelas <b><t t-esc="class_selected"/></b></div>
+		        	</div>
+		        	<div class="row py-3">
+		        		<table class="table table-striped">
+		        			<t t-set="total_in" t-value="0"/>
+		        			<t t-set="total_sick" t-value="0"/>
+		        			<t t-set="total_absent" t-value="0"/>
+		        			<t t-set="total_permitted" t-value="0"/>
+		        			<t t-set="total" t-value="0"/>
+		        			<thead>
+		        				<tr>
+		        					<th>Tanggal</th>
+		        					<th>Masuk</th>
+		        					<th>Sakit</th>
+		        					<th>Tidak Masuk</th>
+		        					<th>Ijin</th>
+		        				</tr>
+		        			</thead>
+		        			<tbody>
+		        				<tr t-foreach="docs" t-as="o">
+		        					<td><t t-esc="o['date'].strftime('%d %B %Y')"/></td>
+		        					<td><t t-esc="o['total_in']"/></td>
+		        					<td><t t-esc="o['total_sick']"/></td>
+		        					<td><t t-esc="o['total_absent']"/></td>
+		        					<td><t t-esc="o['total_permitted']"/></td>
+				        			<t t-set="total_in" t-value="total_in + o['total_in']"/>
+				        			<t t-set="total_sick" t-value="total_sick + o['total_sick']"/>
+				        			<t t-set="total_absent" t-value="total_absent + o['total_absent']"/>
+				        			<t t-set="total_permitted" t-value="total_permitted + o['total_permitted']"/>
+				        			<t t-set="total" t-value="total + o['total_in'] + o['total_sick'] + o['total_absent'] + o['total_permitted']"/>
+		        				</tr>
+		        			</tbody>
+		        			<tfooter>
+		        				<tr>
+		        					<td class="text-right"><b>Total</b></td>
+		        					<td><t t-esc="total_in"/></td>
+		        					<td><t t-esc="total_sick"/></td>
+		        					<td><t t-esc="total_absent"/></td>
+		        					<td><t t-esc="total_permitted"/></td>
+		        				</tr>
+		        			</tfooter>
+		        		</table>
+		        	</div>
+		        	<hr class="py-3"/>
+		        	<h4>Total Absensi <b><t t-esc="total"/></b></h4>
+		        	<br/>
+		        	<h5>Presentase Absensi</h5>
+		        	<div class="row">
+		        		<div class="col-3">Masuk : <t t-esc="round(total_in/total*100, 2)"/>%</div>
+		        		<div class="col-3">Sakit : <t t-esc="round(total_sick/total*100, 2)"/>%</div>
+		        		<div class="col-3">Absen : <t t-esc="round(total_absent/total*100, 2)"/>%</div>
+		        		<div class="col-3">Ijin : <t t-esc="round(total_permitted/total*100, 2)"/>%</div>
+		        	</div>
+		        </div>
+	        </t>
+	    </template>
+	</data>
+</odoo>

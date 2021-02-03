@@ -1,0 +1,83 @@
+<odoo>
+	<data>
+		<record model="ir.ui.menu" id="base.menu_module_tree">
+			<field name="groups_id" eval="[(6,0,[ref('anugrah_school_master.as_administrator')])]"/>
+		</record>s
+
+		<record model="ir.ui.menu" id="base.menu_administration">
+			<field name="groups_id" eval="[(6,0,[ref('anugrah_school_master.as_administrator')])]"/>
+		</record>
+
+		<record id="inherit_student_payment_tree_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Payment</field>
+		    <field name="model">asp.student_payments</field>
+		    <field name="inherit_id" ref="student_payment_tree_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha')])]"/>
+		    <field name="arch" type="xml">
+		        <tree name="sp_tree_view" position="attributes">
+		        	<attribute name="edit">true</attribute>
+		        </tree>
+		    </field>
+		</record>
+
+		<record id="inherit_student_payment_form_view" model="ir.ui.view">
+		    <field name="name">Payment Student Payment</field>
+		    <field name="model">asp.student_payments</field>
+		    <field name="inherit_id" ref="student_payment_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha')])]"/>
+		    <field name="arch" type="xml">
+		        <form name="sp_form_view" position="attributes">
+		        	<attribute name="edit">true</attribute>
+		        </form>
+		    </field>
+		</record>
+
+		<record id="payment_record_groups_view" model="ir.ui.view">
+		    <field name="name">Inherit Payment Record</field>
+		    <field name="model">asp.payment_records</field>
+		    <field name="inherit_id" ref="income_records_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha')])]"/>
+		    <field name="arch" type="xml">
+		        <field name='payment_date' position='attributes'>
+		            <attribute name="readonly">1</attribute>
+		        </field>
+		    </field>
+		</record>
+
+		<record id="payment_expense_groups_view" model="ir.ui.view">
+		    <field name="name">Payment Expense Record</field>
+		    <field name="model">asp.payment_expenses</field>
+		    <field name="inherit_id" ref="outcome_records_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha')])]"/>
+		    <field name="arch" type="xml">
+		        <field name='payment_date' position='attributes'>
+		            <attribute name="readonly">1</attribute>
+		        </field>
+		    </field>
+		</record>
+
+		<record id="payment_record_groups_view" model="ir.ui.view">
+		    <field name="name">Inherit Payment Record</field>
+		    <field name="model">asp.payment_records</field>
+		    <field name="inherit_id" ref="income_records_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_administrator')])]"/>
+		    <field name="arch" type="xml">
+		        <form name='form_payment_records' position='attributes'>
+		            <attribute name="edit">1</attribute>
+		        </form>
+		    </field>
+		</record>
+
+		<record id="payment_expense_groups_view" model="ir.ui.view">
+		    <field name="name">Payment Expense Record</field>
+		    <field name="model">asp.payment_expenses</field>
+		    <field name="inherit_id" ref="outcome_records_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_administrator')])]"/>
+		    <field name="arch" type="xml">
+		        <form name='form_payment_expenses' position='attributes'>
+		            <attribute name="edit">1</attribute>
+		        </form>
+		    </field>
+		</record>
+	</data>
+</odoo>

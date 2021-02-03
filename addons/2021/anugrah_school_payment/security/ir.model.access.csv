@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asp_student_payments,access_asp_student_payments,model_asp_student_payments,base.group_user,1,1,1,1
+access_asp_payment_records,access_asp_payment_records,model_asp_payment_records,base.group_user,1,1,1,1
+access_asm_students,access_asm_students,anugrah_school_master.model_asm_students,base.group_user,1,1,1,1
+access_asm_finances,access_asm_finances,model_asm_finances,base.group_user,1,1,1,1
+access_asp_payment_expenses,access_asp_payment_expenses,model_asp_payment_expenses,base.group_user,1,1,1,1
+access_asp_item_lines,access_asp_item_lines,model_asp_item_lines,base.group_user,1,1,1,1
+access_asm_inventory,access_asm_inventory,anugrah_school_inventory.model_asm_inventories,base.group_user,1,1,1,1
+access_asp_unpaid_spp_students,access_asp_unpaid_spp_students,model_asp_unpaid_spp_students,base.user_root,1,1,1,1
+access_asp_cron,access_asp_cron,model_asp_cron,base.user_root,1,1,1,1
+access_asi_history,access_asi_history,anugrah_school_inventory.model_asi_history,base.group_user,1,1,1,1
+access_asw_finances,access_asw_finances,model_asw_finances,base.group_user,1,1,1,1
+access_asp_report,access_asp_report,model_report_anugrah_school_payment_finance_recap_template,base.group_user,1,1,1,1

@@ -1,0 +1,90 @@
+<odoo>
+  <data>
+    <record id="master_inventory_act" model="ir.actions.act_window">
+      <field name="name">Inventaris</field>
+      <field name="res_model">asm.inventories</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="inventory_history_act" model="ir.actions.act_window">
+      <field name="name">Riwayat Inventaris</field>
+      <field name="res_model">asi.history</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <record id="wizard_inventory_act" model="ir.actions.act_window">
+      <field name="name">Print Data Inventaris</field>
+      <field name="res_model">asw.inventories</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <record id="inventory_tree_view" model="ir.ui.view">
+      <field name="name">Inventory Tree View</field>
+      <field name="model">asm.inventories</field>
+      <field name="arch" type="xml">
+        <tree create="false" delete="false">
+          <field name="name"/>
+          <field name="quantity"/>
+          <field name="stage"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="inventory_form_view" model="ir.ui.view">
+      <field name="name">Inventory Form View</field>
+      <field name="model">asm.inventories</field>
+      <field name="arch" type="xml">
+        <form create="false" delete="false">
+          <group col="4">
+            <field name="name" readonly="1"/>
+            <field name="quantity" readonly="1"/>
+            <field name="stage"/>
+            <field name="sell_price"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="inventory_history_tree_view" model="ir.ui.view">
+      <field name="name">Inventory History Tree View</field>
+      <field name="model">asi.history</field>
+      <field name="arch" type="xml">
+        <tree create="false" edit="false" delete="false">
+          <field name="stage"/>
+          <field name="date"/>
+          <field name="name"/>
+          <field name="state"/>
+          <field name="quantity"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="wizard_inventory_form_view" model="ir.ui.view" >
+          <field name="name">Inventory Wizard Form</field>
+          <field name="model">asw.inventories</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+              <form string="Rekapan Inventaris">
+                  <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="stage"/>
+                  </group>
+                  <footer>
+                      <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                      <button string="Cancel" special="cancel"/>
+                  </footer>
+              </form>
+          </field>
+      </record>
+
+    <menuitem id="master_inventory_root" name="Inventaris" parent="anugrah_school_master.root_menu" groups="anugrah_school_master.as_tata_usaha,anugrah_school_master.as_administrator"/>
+
+    <menuitem id="master_inventory_menu" name="Daftar Inventaris" action="master_inventory_act" parent="master_inventory_root" groups="anugrah_school_master.as_tata_usaha,anugrah_school_master.as_administrator"/> 
+
+    <menuitem id="inventory_history_menu" name="Riwayat" action="inventory_history_act" parent="master_inventory_root" groups="anugrah_school_master.as_tata_usaha,anugrah_school_master.as_administrator"/> 
+
+    <menuitem id="wizard_inventory_history" name="Rekap Inventaris" parent="master_inventory_root" action="wizard_inventory_act" groups="anugrah_school_master.as_tata_usaha,anugrah_school_master.as_administrator"/>
+  </data>
+</odoo>

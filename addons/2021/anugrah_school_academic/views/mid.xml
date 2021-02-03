@@ -1,0 +1,212 @@
+<odoo>
+	<data>
+		<report id="get_mid_card" model="asa.reports" string="Get Mid Report" report_type="qweb-html" name="anugrah_school_academic.mid_card"/>
+
+		<template id="mid_card">
+			<t t-call="web.html_container">
+				<t t-call="web.basic_layout">
+					<t t-if="docs.selected_format in ['pg', 'tk']">
+						<div class="row mb-5">
+							<div class="col-6">
+								<h4><b>Nama : <t t-esc="docs.student_id.full_name"/></b></h4>
+							</div>
+							<div class="col-6">
+								<h4 class="text-right"><b>Kelas : <t t-esc="docs.student_id.current_class"/></b></h4>
+							</div>
+						</div>
+						<t t-foreach="docs.assesment_note_ids" t-as="i">
+							<div class="px-5 py-3 my-4 border border-warning rounded">
+								<h3 class="row"><b><t t-esc="i.category_id.name"/></b></h3>
+								<div><t t-esc="i.description"/></div>
+							</div>
+						</t>
+						<div class="p-4 mt-4 mb-5 border border-success rounded">
+							<h5 class='text-center'><b>Absensi</b></h5>
+							<div class="row">
+								<div class="col-4 text-center">Sakit: <t t-esc="docs.total_sick"/> hari</div>
+								<div class="col-4 text-center">Ijin: <t t-esc="docs.total_permitted"/> hari</div>
+								<div class="col-4 text-center">Lainnya: <t t-esc="docs.total_absent"/> hari</div>
+							</div>
+						</div>
+
+						<div class="row my-5 pb-4 justify-content-center">
+							<div class="col-4 text-center">Mengetahui Orang Tua,</div>
+							<div class="col-4 offset-4 text-center">Tanda Tangan Guru,</div>
+						</div>
+						<div class="row my-5 pt-4 justify-content-center">
+							<div class="col-4 text-center">
+								<t t-if="docs.student_id.father_name">
+									<t t-esc="docs.student_id.father_name"/>
+								</t>
+								<t t-else="">
+									<t t-if="docs.student_id.mother_name">
+										<t t-esc="docs.student_id.mother_name"/>
+									</t>
+									<t t-else="">
+										<t t-if="docs.student_id.guardian_name">
+											<t t-esc="docs.student_id.guardian_name"/>
+										</t>
+										<t t-else="">
+											_____________________________
+										</t>
+									</t>
+								</t>
+							</div>
+							<div class="col-4 offset-4 text-center"><t t-esc="docs.create_uid.name"/></div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-6 text-center"><b>Sidoarjo, <t t-esc="docs.report_date.strftime('%d %B %Y')"/></b></div>
+						</div>
+						<div class="row mb-5 pb-4 justify-content-center">
+							<div class="col-6 text-center">Tanda Tangan Kepala Sekolah</div>
+						</div>
+						<div class="row my-5 pt-4 justify-content-center">
+							<div class="col-6 text-center">____________________________</div>
+						</div>
+						<div class="row mt-5">
+							<div>Komentar Orang Tua</div>
+						</div>
+						<div class="row border border-dark rounded" style="height: 150px;">
+						</div>
+					</t>
+					<t t-else="">
+						<div class="mb-5 pb-5">
+							<h3 class="text-center">LAPORAN NILAI TENGAH SEMESTER I</h3>
+							<h4 class="text-center">TAHUN PELAJARAN <t t-esc="docs.term_id.name"/></h4>
+						</div>
+						<div class="row">
+							<div class="row col-6">
+								<div class="col-6">
+									Nama
+								</div>
+								<div class="col-6">
+									: <t t-esc="docs.student_id.full_name"/>
+								</div>
+							</div>
+							<div class="row col-6">
+								<div class="col-6">
+									Kelas 
+								</div>
+								<div class="col-6">
+									: <t t-esc="docs.student_id.current_class"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="row col-6">
+								<div class="col-6">
+									Nomor Induk Siswa/NISN 
+								</div>
+								<div class="col-6">
+									: <t t-esc="docs.student_id.nipd"/>/<t t-esc="docs.student_id.nisn"/>
+								</div>
+							</div>
+						</div>
+
+						<h4 class="mt-4"><b>A. Nilai</b></h4>
+						<table class="table table-striped">
+							<thead class="thead-dark">
+								<tr>
+									<th>No.</th>
+									<th>Mata Pelajaran</th>
+									<th>Rata-rata PH</th>
+									<th>Tugas</th>
+									<th>Praktek</th>
+									<th>Portfolio</th>
+									<th>UTS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-set="number" t-value="1"/>
+								<tr t-foreach="docs.grade_ids" t-as="x">
+									<t t-set="total_ph" t-value="0"/>
+									<t t-set="total_mid" t-value="0"/>
+									<t t-set="total_practice" t-value="0"/>
+									<t t-set="total_portfolio" t-value="0"/>
+									<t t-set="divider_k" t-value="0"/>
+									<t t-set="divider_p1" t-value="0"/>
+									<t t-set="divider_p2" t-value="0"/>
+									<t t-foreach="x.knowledge_ids" t-as="y">
+										<t t-set="total_ph" t-value="total_ph+y.daily_average"/>
+										<t t-set="total_mid" t-value="total_mid+y.mid_term"/>
+										<t t-set="divider_k" t-value="divider_k+1"/>
+									</t>
+									<t t-foreach="x.skill_ids" t-as="z">
+										<t t-if="z.practice_one>z.practice_two">
+											<t t-set="total_practice" t-value="total_practice+z.practice_one"/>
+											<t t-set="divider_p1" t-value="divider_p1+1"/>
+										</t>
+										<t t-else="">
+											<t t-set="total_practice" t-value="total_practice+z.practice_two"/>
+											<t t-set="divider_p1" t-value="divider_p1+1"/>
+										</t>
+										<t t-if="z.portfolio>0">
+											<t t-set="total_portfolio" t-value="total_portfolio+z.portfolio"/>
+											<t t-set="divider_p2" t-value="divider_p2+1"/>
+										</t>
+									</t>
+
+									<td><t t-esc="number"/></td>
+									<td><t t-esc="x.course_id.name"/></td>
+									<td><t t-esc="total_ph/divider_k"/></td>
+									<td/>
+									<td><t t-esc="total_practice/divider_p1"/></td>
+									<td><t t-esc="total_portfolio/divider_p2"/></td>
+									<td><t t-esc="total_mid/divider_k"/></td>
+
+									<t t-set="number" t-value="number+1"/>
+								</tr>
+							</tbody>
+						</table>
+						<h4 class="mt-4"><b>B. Catatan Guru</b></h4>
+						<div class="p-4 border border-dark rounded">
+							<div><t t-esc="docs.advices"/></div>
+						</div>
+						<h4 class="mt-4"><b>C. Absensi</b></h4>
+						<div class="p-4 border border-dark rounded">
+							<div class="row">
+								<div class="col-4 text-center">Sakit: <t t-esc="docs.total_sick"/> hari</div>
+								<div class="col-4 text-center">Ijin: <t t-esc="docs.total_permitted"/> hari</div>
+								<div class="col-4 text-center">Lainnya: <t t-esc="docs.total_absent"/> hari</div>
+							</div>
+						</div>
+						<div class="row my-4 pb-3 justify-content-center">
+							<div class="col-4 text-center">Mengetahui Orang Tua,</div>
+							<div class="col-4 offset-4 text-center">Tanda Tangan Guru,</div>
+						</div>
+						<div class="row my-4 pt-3 justify-content-center">
+							<div class="col-4 text-center">
+								<t t-if="docs.student_id.father_name">
+									<t t-esc="docs.student_id.father_name"/>
+								</t>
+								<t t-else="">
+									<t t-if="docs.student_id.mother_name">
+										<t t-esc="docs.student_id.mother_name"/>
+									</t>
+									<t t-else="">
+										<t t-if="docs.student_id.guardian_name">
+											<t t-esc="docs.student_id.guardian_name"/>
+										</t>
+										<t t-else="">
+											_____________________________
+										</t>
+									</t>
+								</t>
+							</div>
+							<div class="col-4 offset-4 text-center"><t t-esc="docs.create_uid.name"/></div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-6 text-center"><b>Sidoarjo, <t t-esc="docs.report_date.strftime('%d %B %Y')"/></b></div>
+						</div>
+						<div class="row mb-4 pb-3 justify-content-center">
+							<div class="col-6 text-center">Tanda Tangan Kepala Sekolah</div>
+						</div>
+						<div class="row my-4 pt-3 justify-content-center">
+							<div class="col-6 text-center">____________________________</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

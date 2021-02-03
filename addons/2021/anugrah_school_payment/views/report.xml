@@ -1,0 +1,92 @@
+<odoo>
+	<data>
+		<report id="finance_recap" model="asw.finances" string="Finance Report" report_type="qweb-html" name="anugrah_school_payment.finance_recap_template"/>
+
+		<template id="finance_recap_template">
+	        <t t-call="web.html_container">
+	            <div class="header" style="border-bottom: 2px solid black">
+	                <h3 class="text-center">Rekapan Pemasukan</h3>
+	                <h4 class="text-center">
+	                    <strong>Dari</strong>:
+	                    <t t-esc="datetime.datetime.strptime(date_start, '%Y-%m-%d').strftime('%d %B %Y')"/>
+	                    <strong>Hingga</strong>:
+	                    <t t-esc="datetime.datetime.strptime(date_end, '%Y-%m-%d').strftime('%d %B %Y')"/>
+	                </h4>
+	            </div>
+	            <div class="article mb-5">
+	                <table class="table table-condensed table-bordered" style="width: 100%">
+	                    <thead>
+	                        <th class="text-center">Kode Transaksi</th>
+	                        <th class="text-center">Keterangan</th>
+	                        <th class="text-center">Tanggal Pembayaran</th>
+	                        <th class="text-center">Nominal</th>
+	                    </thead>
+	                    <tbody>
+	                        <t t-foreach="docs" t-as="o">
+	                        	<t t-if="o['state'] == 'in'">
+		                            <tr>
+		                                <td>
+		                                    <span t-esc="o['payment_code']"/>
+		                                </td>
+		                                <td>
+		                                    <span t-esc="o['note']"/>
+		                                </td>
+		                                <td class="text-center">
+		                                    <span t-esc="o['payment_date']"/>
+		                                </td>
+		                                <td class="text-center">
+		                                    Rp. <span t-esc="o['income']"/>
+		                                </td>
+		                            </tr>
+		                        </t>
+	                        </t>
+	                    </tbody>
+	                </table>
+	                <h4 class="text-center">Total Pemasukan <b>Rp. <t t-esc="total_income"/></b></h4>
+	            </div>
+
+
+	            <div class="header mt-5" style="border-bottom: 2px solid black">
+	                <h3 class="text-center">Rekapan Pengeluaran</h3>
+	                <h4 class="text-center">
+	                    <strong>Dari</strong>:
+	                    <t t-esc="datetime.datetime.strptime(date_start, '%Y-%m-%d').strftime('%d %B %Y')"/>
+	                    <strong>Hingga</strong>:
+	                    <t t-esc="datetime.datetime.strptime(date_end, '%Y-%m-%d').strftime('%d %B %Y')"/>
+	                </h4>
+	            </div>
+	            <div class="article">
+	                <table class="table table-condensed table-bordered" style="width: 100%">
+	                    <thead>
+	                        <th class="text-center">Kode Transaksi</th>
+	                        <th class="text-center">Keterangan</th>
+	                        <th class="text-center">Tanggal Pembayaran</th>
+	                        <th class="text-center">Nominal</th>
+	                    </thead>
+	                    <tbody>
+	                        <t t-foreach="docs" t-as="o">
+	                        	<t t-if="o['state'] == 'out'">
+		                            <tr>
+		                                <td>
+		                                    <span t-esc="o['payment_code']"/>
+		                                </td>
+		                                <td>
+		                                    <span t-esc="o['note']"/>
+		                                </td>
+		                                <td class="text-center">
+		                                    <span t-esc="o['payment_date']"/>
+		                                </td>
+		                                <td class="text-center">
+		                                    Rp. <span t-esc="o['outcome']"/>
+		                                </td>
+		                            </tr>
+		                        </t>
+	                        </t>
+	                    </tbody>
+	                </table>
+	                <h4 class="text-center">Total Pengeluaran <b>Rp. <t t-esc="total_outcome"/></b></h4>
+	            </div>
+	        </t>
+	    </template>
+	</data>
+</odoo>

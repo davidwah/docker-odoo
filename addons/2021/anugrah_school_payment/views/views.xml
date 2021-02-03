@@ -1,0 +1,464 @@
+<odoo>
+	<data>
+		<record id="student_payment_act" model="ir.actions.act_window">
+			<field name="name">Pembayaran Siswa</field>
+			<field name="res_model">asp.student_payments</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context" eval="{'group_by': 'stage'}"/>
+		</record>
+
+		<record id="income_records_act" model="ir.actions.act_window">
+			<field name="name">Pemasukan</field>
+			<field name="res_model">asp.payment_records</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context" eval="{'group_by': 'stage'}"/>
+		</record>
+
+		<record id="outcome_records_act" model="ir.actions.act_window">
+			<field name="name">Pengeluaran</field>
+			<field name="res_model">asp.payment_expenses</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context" eval="{'group_by': 'stage'}"/>
+		</record>
+
+		<record id="master_finance_act" model="ir.actions.act_window">
+			<field name="name">Master Keuangan</field>
+			<field name="res_model">asm.finances</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="unpaid_spp_act" model="ir.actions.act_window">
+			<field name="name">Siswa Terlambat Bayar SPP</field>
+			<field name="res_model">asp.unpaid_spp_students</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="wizard_finance_act" model="ir.actions.act_window">
+			<field name="name">Print Data Keuangan</field>
+			<field name="res_model">asw.finances</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="student_payment_tree_view" model="ir.ui.view">
+			<field name="name">Student Payment Tree</field>
+			<field name="model">asp.student_payments</field>
+			<field name="arch" type="xml">
+				<tree create="false" delete="false" edit="false" name="sp_tree_view">
+					<field name="stage"/>
+					<field name="student_nipd"/>
+					<field name="student_id"/>
+					<field name="dpp_total" sum="Total DPP"/>
+					<field name="dpp_paid" sum="Total DPP Terbayar"/>
+					<field name="dpp_unpaid" sum="Total DPP Belum Bayar"/>
+					<!-- Uang Pengembangan -->
+					<field name="kembang_total" sum="Total Pengembangan"/>
+					<field name="kembang_paid" sum="Total Pengembangan Terbayar"/>
+					<field name="kembang_unpaid" sum="Total Pengembangan Belum Bayar"/>
+					<field name="spp_total" sum="Total SPP"/>
+					<field name="spp_paid" sum="Total SPP Terbayar"/>
+					<field name="spp_unpaid" sum="Total SPP Belum Bayar"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_payment_form_view" model="ir.ui.view">
+			<field name="name">Student Payment Form</field>
+			<field name="model">asp.student_payments</field>
+			<field name="arch" type="xml">
+				<form create="false" delete="false" edit="false" name="sp_form_view">
+					<sheet>
+						<group col="2">
+							<field name="student_id"/>
+							<field name="student_nipd"/>
+							<field name="term"/>
+							<field name="current_class"/>
+							<field name="stage"/>
+							<field name="bank_account_number"/>
+							<field name="form_returned_date"/>
+						</group>
+						<group col="4">
+							<group col="2">
+								<separator string="UPD"/>
+								<field name="dpp_total" string="Total UPD"/>
+								<field name="dpp_paid" string="UPD Terbayar"/>
+								<field name="dpp_unpaid" string="UPD Belum Bayar"/>
+							</group>
+							<group col="2">
+								<separator string="Kembang"/>
+								<field name="kembang_total" string="Total Pengembangan"/>
+								<field name="kembang_paid" string="Pengembangan Terbayar"/>
+								<field name="kembang_unpaid" string="Pengembangan Belum Bayar"/>
+							</group>
+							<group col="2">
+								<separator string="SPP"/>
+								<field name="spp_total"/>
+								<field name="spp_paid"/>
+								<field name="spp_unpaid"/>
+							</group>
+							<group col="2">
+								<separator string="Uang Gedung"/>
+								<field name="development_total"/>
+								<field name="development_paid"/>
+								<field name="development_unpaid"/>
+							</group>
+							<group col="2">
+								<separator string="Pendaftaran Ulang"/>
+								<field name="reregistration_total"/>
+								<field name="reregistration_paid"/>
+								<field name="reregistration_unpaid"/>
+							</group>
+							<group col="2">
+								<separator string="Pembayaran Buku Paket"/>
+								<field name="book_total"/>
+								<field name="book_paid"/>
+								<field name="book_unpaid"/>
+							</group>
+							<group col="2">
+								<separator string="Biaya Formulir"/>
+								<field name="form_total"/>
+								<field name="form_paid"/>
+								<field name="form_unpaid"/>
+							</group>
+						</group>
+						<group string="Sejarah Pembayaran">
+							<field name="payment_record_ids"/>
+						</group>
+						<group col="2" string="Surat Perjanjian Biaya">
+							<field name="file" filename="filename"/>
+							<field name="filename" invisible="1"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="income_records_tree_view" model="ir.ui.view">
+			<field name="name">Income Records Tree</field>
+			<field name="model">asp.payment_records</field>
+			<field name="arch" type="xml">
+				<tree edit="false" delete="false">
+					<field name="spp_payment_type"/>
+					<field name="stage"/>
+					<field name="payment_date"/>
+					<field name="transaction_code"/>
+					<field name="state"/>
+					<field name="student_id"/>
+					<field name="student_nipd"/>
+					<field name="student_class"/>
+					<field name="payment_value" sum="Total Dana Masuk"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="income_records_form_view" model="ir.ui.view">
+			<field name="name">Income Records Form</field>
+			<field name="model">asp.payment_records</field>
+			<field name="arch" type="xml">
+				<form name="form_payment_records" edit="false" delete="false">
+					<sheet>
+						<group col="2">
+							<group col="2" string="Informasi Transaksi">
+								<field name="transaction_code"/>
+								<field name="receiver"/>
+								<field name="created_by" readonly="1"/>
+								<field name="stage" attrs="{'required': [('state', 'in', ['spp', 'dpp', 'kembang', 'hardware', 'unas', 'trip'])], 'invisible': [('state', 'in', ['other', 'bos', 'canteen', 'kawai'])]}"/>
+								<field name="state"/>
+							</group>
+							<group col="2" string="Informasi Siswa" attrs="{'invisible': [('state', 'in', ['bos', 'other', 'canteen', 'kawai'])]}">
+								<field name="student_id" attrs="{'required': [('state', 'in', ['spp', 'dpp', 'kembang', 'hardware', 'unas', 'trip', 'extra'])]}"/>
+								<field name="student_payment_id"/>
+								<field name="student_nipd"/>
+								<field name="student_class"/>
+							</group>
+						</group>
+						<group col="2">
+							<group col="2" string="Detil SPP" attrs="{'invisible': [('state', '!=', 'spp')]}">
+								<field name="spp_base"/>
+								<field name="spp_final_spp_value"/>
+								<field name="spp_month" attrs="{'required': [('state', '=', 'spp')]}"/>
+								<field name="spp_year" attrs="{'required': [('state', '=', 'spp')]}"/>
+								<field name="spp_unpaid_value"/>
+							</group>
+							<group col="2" string="Detil DPP" attrs="{'invisible': [('state', '!=', 'dpp')]}">
+								<field name="dpp_payment_number"/>
+							</group>
+							<!-- Uang Pengembangan -->
+							<group col="2" string="Detil Uang Pengembangan" attrs="{'invisible': [('state', '!=', 'kembang')]}">
+								<field name="kembang_payment_number"/>
+							</group>
+							<group col="2" string="Daftar Belanja" attrs="{'invisible': [('state', '!=', 'hardware')]}">
+								<field name="item_ids"/>
+							</group>
+							<group col="2" string="Informasi Pembayaran">
+								<field name="payment_value"/>
+								<field name="preview_value"/>
+								<field name="payment_date"/>
+								<field name="spp_payment_type" string="Cara Pembayaran"/>
+								<field name="spp_late_fine" invisible="1"/>
+								<field name="spp_cash_fine" attrs="{'invisible': [('state', '!=', 'spp')]}"/>
+								<field name="note" attrs="{'required': [('state', 'in', ['bos', 'other', 'canteen', 'kawai'])]}"/>
+							</group>
+						</group>
+						<group string="Cek ulang semua isian dalam form ini">
+							<field name="confirmation"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="outcome_records_tree_view" model="ir.ui.view">
+			<field name="name">Outcome Records Tree</field>
+			<field name="model">asp.payment_expenses</field>
+			<field name="arch" type="xml">
+				<tree edit="false" delete="false">
+					<field name="stage"/>
+					<field name="payment_date"/>
+					<field name="transaction_code"/>
+					<field name="expense_category"/>
+					<field name="payment_value" sum="Total Dana Keluar"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="outcome_records_form_view" model="ir.ui.view">
+			<field name="name">Outcome Records Form</field>
+			<field name="model">asp.payment_expenses</field>
+			<field name="arch" type="xml">
+				<form name="form_payment_expenses" edit="false" delete="false">
+					<sheet>
+						<group col="2">
+							<group col="2" string="Informasi Transaksi">
+								<field name="transaction_code"/>
+								<field name="receiver"/>
+								<field name="created_by" readonly="1"/>
+								<field name="stage" attrs="{'required': [('expense_category', '=', 'hardware')], 'invisible': [('expense_category', 'not in', ['hardware', 'payroll', 'other'])]}"/>
+							</group>
+							<group col="2" string="Jenis Pengeluaran">
+								<field name="expense_category"/>
+							</group>
+						</group>
+						<group col="2" string="Item" attrs="{'invisible': [('expense_category', '!=', 'hardware')]}">
+							<field name="item_ids" attrs="{'readonly': [('id', '!=', False)]}"/>
+							<field name="discount"/>
+							<field name="price_cut"/>
+						</group>
+						<group col="2">
+							<group col="2" string="Informasi Pembayaran">
+								<field name="hardware_value" attrs="{
+									'invisible': [('expense_category', '!=', 'hardware')], 
+									'required': [('expense_category', '!=', 'hardware')]}"/>
+								<field name="other_value" attrs="{
+									'invisible': [('expense_category', '=', 'hardware')], 
+									'required': [('expense_category', '=', 'hardware')],
+									'readonly': [('id', '!=', False)]}"/>
+								<field name="payment_date"/>
+								<field name="note"/>
+							</group>
+							<group col="1">
+								<group col="2" string="Upload Nota">
+									<field name="file" filename="filename"/>
+									<field name="filename" invisible="1"/>
+								</group>
+								<group col="2" string="Cek ulang semua isian dalam form ini">
+									<field name="confirmation"/>
+								</group>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="item_lines_tree_view" model="ir.ui.view">
+			<field name="name">Item Lines Tree</field>
+			<field name="model">asp.item_lines</field>
+			<field name="arch" type="xml">
+				<tree>
+				 <field name="inventory_id" string="Nama Barang"/>
+				 <field name="quantity"/>
+				 <field name="price"/>
+				 <field name="tax"/>
+				 <field name="subtotal" sum="Grand Total"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="item_lines_form_view" model="ir.ui.view">
+			<field name="name">Item Lines Form</field>
+			<field name="model">asp.item_lines</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="2">
+							<field name="inventory_id" string="Nama Barang"/>
+							<field name="inventory_quantity"/>
+						</group>
+						<group col="2">
+							<field name="quantity"/>
+							<field name="price"/>
+							<field name="tax"/>
+							<field name="subtotal"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="unpaid_spp_tree_view" model="ir.ui.view">
+			<field name="name">Unpaid SPP Students Tree</field>
+			<field name="model">asp.unpaid_spp_students</field>
+			<field name="arch" type="xml">
+				<tree create="false" edit="false" delete="false">
+					<field name="student_payment_id" invisible="1"/>
+					<field name="name"/>
+					<field name="late_days"/>
+					<field name="value"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="unpaid_spp_form_view" model="ir.ui.view">
+			<field name="name">Unpaid SPP Students Form</field>
+			<field name="model">asp.unpaid_spp_students</field>
+			<field name="arch" type="xml">
+				<form create="false" edit="false" delete="false">
+					<sheet>
+						<group col="2">
+							<field name="student_payment_id"/>
+							<field name="name"/>
+							<field name="late_days"/>
+							<field name="value"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="master_finance_tree_view" model="ir.ui.view">
+			<field name="name">Master Finance Tree</field>
+			<field name="model">asm.finances</field>
+			<field name="arch" type="xml">
+				<tree create="false" edit="false" delete="false">
+					<field name="id" string="#"/>
+					<field name="stage"/>
+					<field name="payment_date"/>
+					<field name="payment_code"/>
+					<field name="note"/>
+					<field name="income" sum="Pemasukan Total"/>
+					<field name="outcome" sum="Pengeluaran Total"/>
+					<field name="balance"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="master_finance_form_view" model="ir.ui.view">
+			<field name="name">Master Finance Form</field>
+			<field name="model">asm.finances</field>
+			<field name="arch" type="xml">
+				<form create="false" edit="false" delete="false">
+					<header>
+						<button name="recalculate_balance" type="object" string="Kalkulasi Ulang Saldo" confirm="Are you sure you want to recalculate?"/>
+					</header>
+					<sheet>
+						<field name="state" invisible="1"/>
+						<group col="2">
+							<field name="payment_record_id" attrs="{'invisible': [('state', '=', 'out')]}"/>
+							<field name="payment_expense_id" attrs="{'invisible': [('state', '=', 'in')]}"/>
+							<field name="stage"/>
+						</group>
+						<group col="2">
+							<field name="payment_date"/>
+							<field name="payment_code"/>
+						</group>
+						<group col="2">
+							<field name="income"/>
+							<field name="outcome"/>
+							<field name="balance"/>
+						</group>
+						<group col="2">
+							<field name="note"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="wizard_finance_form_view" model="ir.ui.view" >
+	        <field name="name">Finance Wizard Form</field>
+	        <field name="model">asw.finances</field>
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+	            <form string="Rekapan Keuangan">
+	                <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+	                </group>
+	                <footer>
+	                    <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+	                    <button string="Cancel" special="cancel"/>
+	                </footer>
+	            </form>
+	        </field>
+	    </record>
+
+		<menuitem 
+			id="anugrah_school_payment.root_menu" 
+			name="Transaksi Anugrah School" 
+			groups="anugrah_school_master.as_administrator,anugrah_school_master.as_tata_usaha"
+		/>
+
+		<menuitem 
+			id="income_payment_menu"
+			name="Pemasukan"
+			parent="anugrah_school_payment.root_menu"
+			action="income_records_act"
+			sequence="1"
+		/>
+
+		<menuitem
+			id="outcome_payment_menu"
+			name="Pengeluaran"
+			parent="anugrah_school_payment.root_menu"
+			action="outcome_records_act"
+			sequence="2"
+		/>
+
+		<menuitem 
+			id="student_payment_menu" 
+			name="Pembayaran Siswa" 
+			parent="anugrah_school_payment.root_menu" 
+			action="student_payment_act" 
+			sequence="3" 
+		/>
+
+		<menuitem 
+			id="unpaid_spp_menu" 
+			name="Terlambat Pembayaran" 
+			parent="anugrah_school_payment.root_menu" 
+			action="unpaid_spp_act" 
+			sequence="4" 
+		/>
+
+		<menuitem 
+			id="finance_menu" 
+			name="Keuangan" 
+			parent="anugrah_school_master.root_menu"
+		/>
+
+		<menuitem 
+			id="master_finance_menu" 
+			name="Riwayat Keuangan" 
+			parent="finance_menu" 
+			action="master_finance_act" 
+		/>
+
+		<menuitem 
+			id="wizard_finance_menu" 
+			name="Print Keuangan" 
+			parent="finance_menu" 
+			action="wizard_finance_act" 
+		/>
+	</data>
+</odoo>

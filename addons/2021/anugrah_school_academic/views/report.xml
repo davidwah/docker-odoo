@@ -1,0 +1,746 @@
+<odoo>
+	<data>
+		<report id="get_student_report" model="asa.reports" string="Get Whole Semester Report" report_type="qweb-html" name="anugrah_school_academic.student_report_card"/>
+
+		<template id="student_report_card">
+			<t t-call="web.html_container">
+				<t t-call="web.basic_layout">
+					<t t-if="docs.selected_format in ['pg', 'tk']">
+						<div t-foreach="assesments" t-as="i" class="mb-5">
+							<h4 class="mb-2"><b><t t-esc="assesments[i][0].category_id.name"/></b></h4>
+							<table class="table table-striped">
+								<thead class="thead-dark">
+									<tr>
+										<th>Deskripsi</th>
+										<th>Excellent</th>
+										<th>Good</th>
+										<th>Need Practice</th>
+										<th>Experience Difficulty</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="assesments[i]" t-as="j">
+										<td><t t-esc="j.description"/></td>
+										<td>
+											<t t-if="j.is_excellence==True">&#10003;</t>
+										</td>
+										<td>
+											<t t-if="j.is_good==True">&#10003;</t>
+										</td>
+										<td>
+											<t t-if="j.is_less==True">&#10003;</t>
+										</td>
+										<td>
+											<t t-if="j.is_lacking==True">&#10003;</t>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="container mt-4 p-4 border border-success rounded">
+							<h5><b>Pendapat Guru</b></h5>
+							<div><t t-esc="docs.teacher_comment"/></div>
+						</div>
+						
+						<div class="p-4 mt-4 mb-5 border border-success rounded">
+							<h5 class='text-center'><b>Absensi</b></h5>
+							<div class="row">
+								<div class="col-4 text-center">Sakit: <t t-esc="docs.total_sick"/> hari</div>
+								<div class="col-4 text-center">Ijin: <t t-esc="docs.total_permitted"/> hari</div>
+								<div class="col-4 text-center">Lainnya: <t t-esc="docs.total_absent"/> hari</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-4 offset-8 text-center"><b>Sidoarjo, <t t-esc="docs.report_date.strftime('%d %B %Y')"/></b></div>
+						</div>
+						<div class="row mb-5 pb-4">
+							<div class="col-4 text-center">Tanda Tangan Kepala Sekolah</div>
+							<div class="col-4 offset-4 text-center">Mengetahui Guru,</div>
+						</div>
+						<div class="row mt-5 pt-5">
+							<div class="col-4 text-center">____________________________</div>
+							<div class="col-4 offset-4 text-center"><t t-esc="docs.create_uid.name"/></div>
+						</div>
+
+						<div class="row mt-4">
+							<div>Komentar Orang Tua</div>
+						</div>
+						<div class="row border border-dark rounded" style="height: 150px;">
+						</div>
+
+						<div class="row mb-5 pb-4">
+							<div class="col-4 offset-8 text-center">Tanda Tangan Orang Tua</div>
+						</div>		
+						<div class="row mt-5 pt-4">
+							<div class="col-4 offset-8 text-center">
+								<t t-if="docs.student_id.father_name">
+									<t t-esc="docs.student_id.father_name"/>
+								</t>
+								<t t-else="">
+									<t t-if="docs.student_id.mother_name">
+										<t t-esc="docs.student_id.mother_name"/>
+									</t>
+									<t t-else="">
+										<t t-if="docs.student_id.guardian_name">
+											<t t-esc="docs.student_id.guardian_name"/>
+										</t>
+										<t t-else="">
+											_____________________________
+										</t>
+									</t>
+								</t>
+							</div>
+						</div>	
+					</t>
+					<t t-else="">
+						<t t-set="stage" t-value="docs.student_id.stage[2:]"/>
+						<div>
+							<div class="row">
+							  <div class="col-12 text-center">
+								<img t-att-src="image_data_uri(docs.company_id.logo)" alt="Logo" style="max-width: 50%;"/>
+							  </div>
+							</div>
+							<div class="row mt-5 pt-5">
+								<h2 class="col-12 text-center"><t t-esc="docs.company_id.name"/></h2>
+							</div>
+							<div class="row">
+								<h3 class="col-12 text-center">Rapor Peserta Didik</h3>
+							</div>
+							<div class="row mb-5 pb-5">
+								<h3 class="col-12 text-center">Jenjang <b><t t-esc="stage"/></b></h3>
+							</div>
+							<div class="row mt-5">
+								<h4 class="col-12 text-center">Nama Peserta Didik</h4>
+							</div>
+							<div class="row px-3">
+								<h4 class="col-12 py-4 text-center" style="border: 2px solid black"><t t-esc="docs.student_id.full_name"/></h4>
+							</div>
+							<div class="row">
+								<h4 class="col-12 text-center">NISN / NIS</h4>
+							</div>
+							<div class="row px-3 mb-5 pb-5">
+								<h4 class="col-12 py-4 text-center" style="border: 2px solid black"><t t-esc="docs.student_id.nisn"/> / <t t-esc="docs.student_id.nipd"/></h4>
+							</div>
+						  <h4 class="text-center">KEMENTERIAN PENDIDIKAN DAN KEBUDAYAAN REPUBLIK INDONESIA</h4>
+						</div>
+
+						<div style="page-break-before: always;">
+						  <h3 class="text-center">Rapor Peserta Didik</h3>
+						  <h4 class="text-center mb-5">Jenjang <t t-esc="stage"/></h4>
+						  <div class="row mx-5 px-5 mt-5 py-1">
+						    <h5 class="col-5">Nama Sekolah</h5>
+						    <h5 class="col">: <t t-esc="docs.company_id.name"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">NPSN</h5>
+						    <h5 class="col">: ______________________________</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">NISN/NIS</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.nisn"/> / <t t-esc="docs.student_id.nipd"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Alamat Sekolah</h5>
+						    <h5 class="col">: Kawasan Sentra Niaga Blok RE 29-31, Citra Garden</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Kode Pos</h5>
+						    <h5 class="col">: 61252 Telp. (031) 8073097</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Kelurahan/Desa</h5>
+						    <h5 class="col">: Entalsewu</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Kecamatan</h5>
+						    <h5 class="col">: Buduran</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Kabupaten/Kota</h5>
+						    <h5 class="col">: Sidoarjo</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Provinsi</h5>
+						    <h5 class="col">: Jawa Timur</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Website</h5>
+						    <h5 class="col">: www.anugerahschool.sch.id</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Email</h5>
+						    <h5 class="col">: info@anugerahschool.sch.id</h5>
+						  </div>
+						</div>
+
+						<div style="page-break-before: always">
+						  <h3 class="text-center">Identitas Peserta Didik</h3>
+						  <div class="row mx-5 px-5 mt-5 py-1">
+						    <h5 class="col-5">Nama Peserta Didik</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.full_name"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">NISN/NIS</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.nisn"/> / <t t-esc="docs.student_id.nipd"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Tempat, Tanggal Lahir</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.birth_place"/>, <t t-esc="docs.student_id.birth_date"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Jenis Kelamin</h5>
+						    <h5 t-if="docs.student_id.gender=='L'" class="col">: Laki-laki</h5>
+						    <h5 t-if="docs.student_id.gender=='P'" class="col">: Perempuan</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Agama</h5>
+						    <h5 t-if="docs.student_id.religion=='01'" class="col">: Islam</h5>
+						    <h5 t-if="docs.student_id.religion=='02'" class="col">: Kristen/Protestan</h5>
+						    <h5 t-if="docs.student_id.religion=='03'" class="col">: Katolik</h5>
+						    <h5 t-if="docs.student_id.religion=='04'" class="col">: Hindu</h5>
+						    <h5 t-if="docs.student_id.religion=='05'" class="col">: Budha</h5>
+						    <h5 t-if="docs.student_id.religion=='06'" class="col">: Khonghucu</h5>
+						    <h5 t-if="docs.student_id.religion=='07'" class="col">: Kepercayaan kepada Tuhan YME</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Pendidikan Sebelumnya</h5>
+						    <h5 t-if="docs.student_id.previous_school!=''" class="col">: <t t-esc="docs.student_id.previous_school"/></h5>
+						    <h5 t-if="docs.student_id.previous_school==''" class="col">: -</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Alamat Peserta Didik</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.address"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 mt-1 py-1">
+						    <h5><b>Nama Orang Tua</b></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Ayah</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.father_name"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Ibu</h5>
+						    <h5 class="col">: <t t-esc="docs.student_id.mother_name"/></h5>
+						  </div>
+						  <div class="row mx-5 px-5 mt-1 py-1">
+						    <h5><b>Pekerjaan Orang Tua</b></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Ayah</h5>
+						    <h5 t-if="docs.student_id.father_work=='01'" class="col">: Tidak Bekerja</h5>
+						    <h5 t-if="docs.student_id.father_work=='02'" class="col">: Nelayan</h5>
+						    <h5 t-if="docs.student_id.father_work=='03'" class="col">: Petani</h5>
+						    <h5 t-if="docs.student_id.father_work=='04'" class="col">: Peternak</h5>
+						    <h5 t-if="docs.student_id.father_work=='05'" class="col">: PNS/TNI/Polri</h5>
+						    <h5 t-if="docs.student_id.father_work=='06'" class="col">: Karyawan Swasta</h5>
+						    <h5 t-if="docs.student_id.father_work=='07'" class="col">: Pedagang Kecil</h5>
+						    <h5 t-if="docs.student_id.father_work=='08'" class="col">: Pedagang Besar</h5>
+						    <h5 t-if="docs.student_id.father_work=='09'" class="col">: Wiraswasta</h5>
+						    <h5 t-if="docs.student_id.father_work=='10'" class="col">: Wirausaha</h5>
+						    <h5 t-if="docs.student_id.father_work=='11'" class="col">: Buruh</h5>
+						    <h5 t-if="docs.student_id.father_work=='12'" class="col">: Pensiunan</h5>
+						    <h5 t-if="docs.student_id.father_work=='99'" class="col">: Lainnya</h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Ibu</h5>
+						    <h5 t-if="docs.student_id.mother_work=='01'" class="col">: Tidak Bekerja</h5>
+						    <h5 t-if="docs.student_id.mother_work=='02'" class="col">: Nelayan</h5>
+						    <h5 t-if="docs.student_id.mother_work=='03'" class="col">: Petani</h5>
+						    <h5 t-if="docs.student_id.mother_work=='04'" class="col">: Peternak</h5>
+						    <h5 t-if="docs.student_id.mother_work=='05'" class="col">: PNS/TNI/Polri</h5>
+						    <h5 t-if="docs.student_id.mother_work=='06'" class="col">: Karyawan Swasta</h5>
+						    <h5 t-if="docs.student_id.mother_work=='07'" class="col">: Pedagang Kecil</h5>
+						    <h5 t-if="docs.student_id.mother_work=='08'" class="col">: Pedagang Besar</h5>
+						    <h5 t-if="docs.student_id.mother_work=='09'" class="col">: Wiraswasta</h5>
+						    <h5 t-if="docs.student_id.mother_work=='10'" class="col">: Wirausaha</h5>
+						    <h5 t-if="docs.student_id.mother_work=='11'" class="col">: Buruh</h5>
+						    <h5 t-if="docs.student_id.mother_work=='12'" class="col">: Pensiunan</h5>
+						    <h5 t-if="docs.student_id.mother_work=='99'" class="col">: Lainnya</h5>
+						  </div>
+						  <div class="row mx-5 px-5 mt-1 py-1">
+						    <h5><b>Wali Peserta Didik</b></h5>
+						  </div>
+						  <div class="row mx-5 px-5 py-1">
+						    <h5 class="col-5">Nama</h5>
+						    <h5 t-if="docs.student_id.guardian_name!=''" class="col">: <t t-esc="docs.student_id.guardian_name"/></h5>
+						    <h5 t-if="docs.student_id.guardian_name==''" class="col">: -</h5>
+						  </div>
+						  <div class="row mx-5 px-5 mb-5 py-1">
+						    <h5 class="col-5">Pekerjaan</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='01'" class="col">: Tidak Bekerja</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='02'" class="col">: Nelayan</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='03'" class="col">: Petani</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='04'" class="col">: Peternak</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='05'" class="col">: PNS/TNI/Polri</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='06'" class="col">: Karyawan Swasta</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='07'" class="col">: Pedagang Kecil</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='08'" class="col">: Pedagang Besar</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='09'" class="col">: Wiraswasta</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='10'" class="col">: Wirausaha</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='11'" class="col">: Buruh</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='12'" class="col">: Pensiunan</h5>
+						    <h5 t-if="docs.student_id.guardian_work=='99'" class="col">: Lainnya</h5>
+						  </div>
+						  <div class="row">
+						    <div class="col-4 offset-8">
+						      <h4>Sidoarjo, <t t-esc="docs.report_date.strftime('%d %B %Y')"/></h4>
+						    </div>
+						  </div>
+						  <div class="row mb-5 mb-5">
+						    <div class="col-4 offset-8">
+						      <h4>Kepala Sekolah,</h4>
+						    </div>
+						  </div>
+						  <div class="row mt-5 pt-5">
+						    <div class="col-4 offset-8">
+						      <h4>______________________________</h4>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-4 offset-8">
+						      <h4>NIP: _________________________</h4>
+						    </div>
+						  </div>
+						</div>
+
+						<div style="page-break-before: always">
+							<h4 class="text-center"><b>Rapor dan Profil Peserta Didik</b></h4>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Peserta Didik</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.full_name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Kelas</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.current_class"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">NISN/NIS</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.nisn"/>/<t t-esc="docs.student_id.nipd"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Semester</h5>
+									<h5 t-if="docs.semester=='odd'" class="col-6">: Ganjil</h5>
+									<h5 t-if="docs.semester=='even'" class="col-6">: Genap</h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Sekolah</h5>
+									<h5 class="col-6">: <t t-esc="docs.company_id.name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Tahun Pelajaran</h5>
+									<h5 class="col-6">: <t t-esc="docs.term_id.name"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Alamat</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.address"/></h5>
+								</div>
+							</div>
+							<hr class="px-5 my-3" style="background-color: black; border: none; height:2px;"/>
+							<div class="row px-5">
+								<h5><b>A. Sikap</b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th><h5>#</h5></th>
+											<th><h5>Deskripsi</h5></th>
+											<th><h5>Predikat</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><h5>Sikap Spiritual</h5></td>
+											<td><h5>
+												<t t-foreach="docs.attitude_id.spiritual_ids" t-as="i">
+													<t t-if="i.grade=='A'">Sangat mampu <t t-esc="i.competency_id.description"/>, </t>
+													<t t-if="i.grade=='B'">Sudah mampu <t t-esc="i.competency_id.description"/>, </t>
+													<t t-if="i.grade=='C'"><t t-esc="i.competency_id.description"/>, </t>
+												</t>
+											</h5></td>
+											<td><h5><t t-esc="docs.attitude_id.spiritual_final_grade"/></h5></td>
+										</tr>
+										<tr>
+											<td><h5>Sikap Sosial</h5></td>
+											<td><h5>
+												<t t-foreach="docs.attitude_id.social_ids" t-as="i">
+													<t t-if="i.grade=='A'">Sangat mampu <t t-esc="i.competency_id.description"/>, </t>
+													<t t-if="i.grade=='B'">Sudah mampu <t t-esc="i.competency_id.description"/>, </t>
+													<t t-if="i.grade=='C'"><t t-esc="i.competency_id.description"/>, </t>
+												</t>
+											</h5></td>
+											<td><h5><t t-esc="docs.attitude_id.social_final_grade"/></h5></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div style="page-break-before: always">
+							<h4 class="text-center"><b>Rapor dan Profil Peserta Didik</b></h4>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Peserta Didik</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.full_name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Kelas</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.current_class"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">NISN/NIS</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.nisn"/>/<t t-esc="docs.student_id.nipd"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Semester</h5>
+									<h5 t-if="docs.semester=='odd'" class="col-6">: Ganjil</h5>
+									<h5 t-if="docs.semester=='even'" class="col-6">: Genap</h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Sekolah</h5>
+									<h5 class="col-6">: <t t-esc="docs.company_id.name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Tahun Pelajaran</h5>
+									<h5 class="col-6">: <t t-esc="docs.term_id.name"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Alamat</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.address"/></h5>
+								</div>
+							</div>
+							<hr class="px-5 my-3" style="background-color: black; border: none; height:2px;"/>
+							<div class="row px-5">
+								<h5><b>B. Pengetahuan dan Keterampilan</b></h5>
+							</div>
+							<div class="row px-5">
+								<h5><b>KKM Satuan Pendidikan: </b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th colspan="2" rowspan="2" class="text-center"><h5>Mata Pelajaran</h5></th>
+											<th colspan="3" class="text-center"><h5>Pengetahuan</h5></th>
+											<th colspan="3" class="text-center"><h5>Keterampilan</h5></th>
+										</tr>
+										<tr>
+											<th class="text-center"><h5>Nilai</h5></th>
+											<th class="text-center"><h5>Predikat</h5></th>
+											<th class="text-center"><h5>Deskripsi</h5></th>
+											<th class="text-center"><h5>Nilai</h5></th>
+											<th class="text-center"><h5>Predikat</h5></th>
+											<th class="text-center"><h5>Deskripsi</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-set="number" t-value="1"/>
+										<t t-foreach="docs.grade_ids" t-as="i">
+											<tr t-if="i.course_id.is_extra==False">
+												<td class="text-center"><h5><t t-esc="number"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.course_id.name"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.knowledge_final_grade"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.knowledge_predicate"/></h5></td>
+												<td><h5>
+													<t t-if="i.knowledge_final_grade=='A'">Sangat baik dalam </t>
+													<t t-if="i.knowledge_final_grade=='B'">Baik dalam </t>
+													<t t-if="i.knowledge_final_grade=='C'">Cukup dalam </t>
+													<t t-if="i.knowledge_final_grade=='D'">Kurang dalam </t>
+													<t t-foreach="i.knowledge_ids" t-as="j">
+														<t t-esc="j.competency_id.description"/>, 
+													</t>
+												</h5></td>
+												<td class="text-center"><h5><t t-esc="i.skill_final_grade"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.skill_predicate"/></h5></td>
+												<td><h5>
+													<t t-if="i.skill_final_grade=='A'">Sangat baik dalam </t>
+													<t t-if="i.skill_final_grade=='B'">Baik dalam </t>
+													<t t-if="i.skill_final_grade=='C'">Cukup dalam </t>
+													<t t-if="i.skill_final_grade=='D'">Kurang dalam </t>
+													<t t-foreach="i.skill_ids" t-as="j">
+														<t t-esc="j.competency_id.description"/>, 
+													</t>
+												</h5></td>
+											</tr>
+											<t t-set="number" t-value="number+1"/>
+										</t>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div style="page-break-before: always;">
+							<h4 class="text-center"><b>Rapor dan Profil Peserta Didik</b></h4>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Peserta Didik</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.full_name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Kelas</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.current_class"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">NISN/NIS</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.nisn"/>/<t t-esc="docs.student_id.nipd"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Semester</h5>
+									<h5 t-if="docs.semester=='odd'" class="col-6">: Ganjil</h5>
+									<h5 t-if="docs.semester=='even'" class="col-6">: Genap</h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Nama Sekolah</h5>
+									<h5 class="col-6">: <t t-esc="docs.company_id.name"/></h5>
+								</div>
+								<div class="row col-6">
+									<h5 class="col-6">Tahun Pelajaran</h5>
+									<h5 class="col-6">: <t t-esc="docs.term_id.name"/></h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="row col-6">
+									<h5 class="col-6">Alamat</h5>
+									<h5 class="col-6">: <t t-esc="docs.student_id.address"/></h5>
+								</div>
+							</div>
+							<hr class="px-5 my-3" style="background-color: black; border: none; height:2px;"/>
+							<div class="row px-5">
+								<h5><b>C. Extrakurikuler</b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th colspan="2" rowspan="2" class="text-center"><h5>Mata Pelajaran</h5></th>
+											<th colspan="3" class="text-center"><h5>Pengetahuan</h5></th>
+											<th colspan="3" class="text-center"><h5>Keterampilan</h5></th>
+										</tr>
+										<tr>
+											<th class="text-center"><h5>Nilai</h5></th>
+											<th class="text-center"><h5>Predikat</h5></th>
+											<th class="text-center"><h5>Deskripsi</h5></th>
+											<th class="text-center"><h5>Nilai</h5></th>
+											<th class="text-center"><h5>Predikat</h5></th>
+											<th class="text-center"><h5>Deskripsi</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-set="extra" t-value="1"/>
+										<t t-foreach="docs.grade_ids" t-as="i">
+											<tr t-if="i.course_id.is_extra==True">
+												<td class="text-center"><h5><t t-esc="extra"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.course_id.name"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.knowledge_final_grade"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.knowledge_predicate"/></h5></td>
+												<td><h5>
+													<t t-if="i.knowledge_final_grade=='A'">Sangat baik dalam </t>
+													<t t-if="i.knowledge_final_grade=='B'">Baik dalam </t>
+													<t t-if="i.knowledge_final_grade=='C'">Cukup dalam </t>
+													<t t-if="i.knowledge_final_grade=='D'">Kurang dalam </t>
+													<t t-foreach="i.knowledge_ids" t-as="j">
+														<t t-esc="j.competency_id.description"/>, 
+													</t>
+												</h5></td>
+												<td class="text-center"><h5><t t-esc="i.skill_final_grade"/></h5></td>
+												<td class="text-center"><h5><t t-esc="i.skill_predicate"/></h5></td>
+												<td><h5>
+													<t t-if="i.skill_final_grade=='A'">Sangat baik dalam </t>
+													<t t-if="i.skill_final_grade=='B'">Baik dalam </t>
+													<t t-if="i.skill_final_grade=='C'">Cukup dalam </t>
+													<t t-if="i.skill_final_grade=='D'">Kurang dalam </t>
+													<t t-foreach="i.skill_ids" t-as="j">
+														<t t-esc="j.competency_id.description"/>, 
+													</t>
+												</h5></td>
+											</tr>
+											<t t-set="extra" t-value="extra+1"/>
+										</t>
+									</tbody>
+								</table>
+							</div>
+							<div class="row px-5">
+								<h5><b>D. Saran-saran</b></h5>
+							</div>
+							<div class="row mb-5">
+								<h5 class="col-12 p-5" style="border: 1px solid grey"><t t-esc="docs.advices"/></h5>
+							</div>
+							<div class="row px-5">
+								<h5><b>E. Tinggi dan Berat Badan</b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th><h5>Aspek</h5></th>
+											<th><h5>Deskripsi</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><h5>Tinggi Badan</h5></td>
+											<td><h5><t t-esc="docs.student_id.height"/>cm</h5></td>
+										</tr>
+										<tr>
+											<td><h5>Berat Badan</h5></td>
+											<td><h5><t t-esc="docs.student_id.weight"/>kg</h5></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="row px-5">
+								<h5><b>F. Kondisi Kesehatan</b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th><h5>Aspek</h5></th>
+											<th><h5>Deskripsi</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-foreach="docs.health_welfare_ids" t-as="i">
+											<tr>
+												<td><h5><t t-esc="i.name"/></h5></td>
+												<td><h5><t t-esc="i.note"/></h5></td>
+											</tr>
+										</t>
+									</tbody>
+								</table>
+							</div>
+							<div class="row px-5">
+								<h5><b>G. Prestasi</b></h5>
+							</div>
+							<div class="row">
+								<table class="table table-striped mb-5">
+									<thead class="thead-dark">
+										<tr>
+											<th><h5>Aspek</h5></th>
+											<th><h5>Deskripsi</h5></th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-foreach="docs.prestige_ids" t-as="i">
+											<tr>
+												<td><h5><t t-esc="i.name"/></h5></td>
+												<td><h5><t t-esc="i.note"/></h5></td>
+											</tr>
+										</t>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div style="page-break-before: always;">
+							<div class="row px-5">
+								<h5><b>H. Ketidakhadiran</b></h5>
+							</div>
+							<div class="row mb-5">
+								<table class="table table-striped mb-5">
+									<tr>
+										<td><h5>Sakit</h5></td>
+										<td><h5><t t-esc="docs.total_sick"/></h5></td>
+									</tr>
+									<tr>
+										<td><h5>Ijin</h5></td>
+										<td><h5><t t-esc="docs.total_permitted"/></h5></td>
+									</tr>
+									<tr>
+										<td><h5>Absen</h5></td>
+										<td><h5><t t-esc="docs.total_absent"/></h5></td>
+									</tr>
+								</table>
+							</div>
+							<div class="row px-5">
+								<h5><b>I. Kesimpulan</b></h5>
+							</div>
+							<div class="row">
+								<t t-if="docs.graduated==True">
+									<h5 class="col-12 p-5" style="background-color: #58D53E; border-radius: 5px;">
+										<t t-esc="docs.student_id.full_name"/> telah naik ke kelas/jenjang berikutnya.
+									</h5>
+								</t>
+								<t t-if="docs.graduated==False">
+									<h5 class="col-12 p-5" style="background-color: #F4BB32; border-radius: 5px;">
+										<t t-esc="docs.student_id.full_name"/> tidak naik ke kelas/jenjang berikutnya.
+									</h5>
+								</t>
+							</div>
+							<div class="row mt-5 pt-5">
+								<div class="col-6 text-center">
+									Mengetahui
+								</div>
+								<div class="col-6 text-center">
+									Sidoarjo, <t t-esc="docs.report_date.strftime('%d %B %Y')"/>
+								</div>
+							</div>
+							<div class="row mb-5 pb-5">
+								<div class="col-6 text-center">
+									Orang Tua/Wali
+								</div>
+								<div class="col-6 text-center">
+									Guru Kelas
+								</div>
+							</div>
+							<div class="row mt-5 pt-5">
+								<div class="col-6 text-center">
+									________________________________
+								</div>
+								<div class="col-6 text-center">
+									________________________________
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6 text-center">
+									________________________________
+								</div>
+								<div class="col-6 text-center">
+									NIP. ______________
+								</div>
+							</div>
+							<div class="row mt-5">
+								<div class="col-12 text-center">
+									Mengetahui
+								</div>
+							</div>
+							<div class="row mb-5 pb-5">
+								<div class="col-12 text-center">
+									Kepala Sekolah
+								</div>
+							</div>
+							<div class="row mt-5 pt-5">
+								<div class="col-12 text-center">
+									________________________________
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 text-center">
+									NIP. ______________
+								</div>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

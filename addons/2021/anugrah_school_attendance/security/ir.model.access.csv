@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attendances,access_attendances,model_asa_attendances,base.group_user,1,1,1,1
+access_student_attendance,access_student_attendance,model_asa_students,base.group_user,1,1,1,1
+access_students,access_students,anugrah_school_master.model_asm_students,base.group_user,1,1,1,1
+access_classes,access_classes,anugrah_school_master.model_asm_classes,base.group_user,1,1,1,1
+access_asw_attendance_per_class,access_asw_attendance_per_class,model_asw_attendance_per_class,base.group_user,1,1,1,1
+access_report_per_class,access_report_per_class,model_report_anugrah_school_attendance_recap_class_template,base.group_user,1,1,1,1
+access_per_month,access_per_month,model_asa_per_months,base.group_user,1,1,1,1

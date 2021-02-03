@@ -1,0 +1,197 @@
+<odoo>
+	<data>
+		<record id="attendance_action" model="ir.actions.act_window">
+			<field name="name">Absensi Siswa</field>
+			<field name="res_model">asa.attendances</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('create_uid', '=', uid)]</field>
+		</record>
+
+		<record id="per_month_action" model="ir.actions.act_window">
+			<field name="name">Absensi Siswa Per Bulan</field>
+			<field name="res_model">asa.per_months</field>
+			<field name="view_mode">tree,form,graph</field>
+		</record>
+
+		<record id="wizard_per_class_act" model="ir.actions.act_window">
+			<field name="name">Print Absensi Per Kelas</field>
+			<field name="res_model">asw.attendance_per_class</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="wizard_per_student_act" model="ir.actions.act_window">
+			<field name="name">Print Absensi Per Siswa</field>
+			<field name="res_model">asw.attendance_per_student</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="attendance_tree" model="ir.ui.view">
+			<field name="name">Attendance Tree</field>
+			<field name="model">asa.attendances</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="date"/>
+					<field name="class_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="per_month_tree" model="ir.ui.view">
+			<field name="name">Per Month Tree</field>
+			<field name="model">asa.per_months</field>
+			<field name="arch" type="xml">
+				<tree create="false" edit="false" delete="false">
+					<field name="name" width="4"/>
+					<field name="total_in"/>
+					<field name="total_sick"/>
+					<field name="total_absent"/>
+					<field name="total_permitted"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="attendance_form" model="ir.ui.view">
+			<field name="name">Attendance Form</field>
+			<field name="model">asa.attendances</field>
+			<field name="arch" type="xml">
+				<form>
+					<group col="4">
+						<field name="date"/>
+						<field name="class_id" options="{'no_open': True}"/>
+					</group>
+					<group col="2">
+						<field name="student_ids" nolabel="True"/>
+					</group>
+					<group col="2">
+						<field name="create_uid"/>
+						<field name="write_uid"/>
+					</group>
+					<field name="current_class" invisible="1"/>	
+				</form>
+			</field>
+		</record>
+
+		<record id="per_month_form" model="ir.ui.view">
+			<field name="name">Per Month Form</field>
+			<field name="model">asa.per_months</field>
+			<field name="arch" type="xml">
+				<form create="false" edit="false" delete="false">
+					<group col="2">
+						<group col="2">
+							<field name="name"/>
+							<field name="month"/>
+							<field name="year"/>
+						</group>
+						<group col="4">
+							<field name="total_in"/>
+							<field name="total_sick"/>
+							<field name="total_absent"/>
+							<field name="total_permitted"/>
+						</group>
+						<field name="attendance_ids"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_attendance_tree" model="ir.ui.view">
+			<field name="name">Student Attendance Tree</field>
+			<field name="model">asa.students</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="student_id" width="4" options="{'no_open': True}"/>
+					<field name="is_in" width="1"/>
+					<field name="is_sick" width="1"/>
+					<field name="is_absent" width="1"/>
+					<field name="is_permitted" width="1"/>
+					<field name="note" width="4" attrs="{'required': ['|', ('is_absent', '=', True), '|', ('is_permitted', '=', True), ('is_sick', '=', True)]}"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_attendance_form" model="ir.ui.view">
+			<field name="name">Student Attendance Form</field>
+			<field name="model">asa.students</field>
+			<field name="arch" type="xml">
+				<form edit='false' create='false' delete='false'>
+					<group>
+						<field name="student_id" options="{'no_open': True}"/>
+					</group>
+					<group col="8">
+						<field name="is_in"/>
+						<field name="is_sick"/>
+						<field name="is_absent"/>
+						<field name="is_permitted"/>
+					</group>
+					<group>
+						<field name="note"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="attendance_per_class_wizard" model="ir.ui.view">
+			<field name="name">Attendance Per Class</field>
+			<field name="model">asw.attendance_per_class</field>
+			<field name="arch" type="xml">
+				<form string="Attendance Recap Report">
+					<group col="4">
+						<field name="start_date"/>
+						<field name="end_date"/>
+					</group>
+					<group col="2">
+						<field name="class_selected"/>
+					</group>
+					<footer>
+						<button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+						<button string="Cancel" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="attendance_per_student_wizard" model="ir.ui.view">
+			<field name="name">Attendance Per Student</field>
+			<field name="model">asw.attendance_per_student</field>
+			<field name="arch" type="xml">
+				<form string="Attendance Recap Report">
+					<group col="4">
+						<field name="start_date"/>
+						<field name="end_date"/>
+					</group>
+					<group col="2">
+						<field name="student_selected"/>
+					</group>
+					<footer>
+						<button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+						<button string="Cancel" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+        <record id="per_month_graph" model="ir.ui.view">
+            <field name="name">Per_Month Graph</field>
+            <field name="model">asa.per_months</field>
+            <field name="arch" type="xml">
+                <graph string="Absensi Per Bulang">
+                    <field name="name" type="col"/>
+                    <field name="total_in" type="measure"/>
+                    <field name="total_sick" type="measure"/>
+                    <field name="total_absent" type="measure"/>
+                    <field name="total_permitted" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+		<menuitem id="anugrah_school_attendance.root_menu" name="Absensi Siswa Anugerah School" groups="anugrah_school_master.as_administrator,anugrah_school_master.as_wali_kelas"/>
+		
+		<menuitem id="attendance_menu" parent="anugrah_school_attendance.root_menu" name="Absensi Siswa" action="attendance_action"/>
+		<menuitem id="per_month_menu" parent="anugrah_school_attendance.root_menu" name="Per Bulan" action="per_month_action"/>
+		<menuitem id="report_menu" parent="anugrah_school_attendance.root_menu" name="Rekap"/>
+		<menuitem id="report_per_class_menu" parent="report_menu" name="Per Kelas" action="wizard_per_class_act"/>
+		<menuitem id="report_per_student_menu" parent="report_menu" name="Per Siswa" action="wizard_per_student_act"/>
+	</data>
+</odoo>

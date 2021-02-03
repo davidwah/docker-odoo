@@ -1,0 +1,243 @@
+<odoo>
+	<data>
+		<record id="master_student_groups_view" model="ir.ui.view">
+		    <field name="name">Inherit Master Student</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha'), ref('anugrah_school_master.as_operator'), ref('anugrah_school_master.as_kepsek')])]"/>
+		    <field name="arch" type="xml">
+		        <field name="unpaid_spp" position='attributes'>
+		            <attribute name="readonly">1</attribute>
+		        </field>
+		    </field>
+		</record>
+
+		<record id="inherit_kepsek_student_tree_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Tree View - Kepsek</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_tree_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_kepsek')])]"/>
+		    <field name="arch" type="xml">
+		    	<tree name="master_student_tree" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</tree>
+		        <field name="spp_total" position='attributes'>
+		            <attribute name="invisible">1</attribute>
+		        </field>
+		        <field name="dpp_total" position='attributes'>
+		            <attribute name="invisible">1</attribute>
+		        </field>
+		    </field>
+		</record>
+
+		<record id="inherit_kepsek_student_form_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Form View - Kepsek</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_kepsek')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="master_student_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+		    	<page name="student_pay_account" position="attributes">
+		            <attribute name="invisible">1</attribute>
+		    	</page>
+		    	<page name="student_price_list" position="attributes">
+		            <attribute name="invisible">1</attribute>
+		    	</page>
+		    </field>
+		</record>
+
+		<record id="inherit_kepsek_class_tree_view" model="ir.ui.view">
+		    <field name="name">Inherit Class Tree View - Kepsek</field>
+		    <field name="model">asm.classes</field>
+		    <field name="inherit_id" ref="master_class_tree_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_kepsek')])]"/>
+		    <field name="arch" type="xml">
+		    	<tree name="master_class_tree" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</tree>
+		    </field>
+		</record>
+
+		<record id="inherit_kepsek_class_form_view" model="ir.ui.view">
+		    <field name="name">Inherit Class Form View - Kepsek</field>
+		    <field name="model">asm.classes</field>
+		    <field name="inherit_id" ref="master_class_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_kepsek')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="master_class_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+		    </field>
+		</record>
+		
+		<record id="inherit_operator_student_tree_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Tree View - Operator</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_tree_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_operator')])]"/>
+		    <field name="arch" type="xml">
+		    	<tree name="master_student_tree" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</tree>
+		        <field name="spp_total" position='attributes'>
+		            <attribute name="invisible">1</attribute>
+		        </field>
+		        <field name="dpp_total" position='attributes'>
+		            <attribute name="invisible">1</attribute>
+		        </field>
+		    </field>
+		</record>
+
+		<record id="inherit_operator_student_form_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Form View - Operator</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_operator')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="master_student_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+		    	<page name="student_pay_account" position="attributes">
+		            <attribute name="invisible">1</attribute>
+		            <attribute name="required">0</attribute>
+		    	</page>
+		    	<page name="student_price_list" position="attributes">
+		            <attribute name="invisible">1</attribute>
+		            <attribute name="required">0</attribute>
+		    	</page>
+		    	<header name="master_student_header" position="attributes">
+		    		<attribute name="invisible">1</attribute>
+		    	</header>
+		    </field>
+		</record>
+		
+		<record id="inherit_tu_student_form_view" model="ir.ui.view">
+		    <field name="name">Inherit Student Form View - TU</field>
+		    <field name="model">asm.students</field>
+		    <field name="inherit_id" ref="master_student_form_view"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_tata_usaha')])]"/>
+		    <field name="arch" type="xml">
+	    		<field name="state" position="attributes">
+	    			<attribute name="invisible">0</attribute>
+	    		</field>
+	    		<field name="nipd" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="nisn" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="nisn" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="nik" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="birth_cert_number" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="child_number" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="sibling_count" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="rt" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="rw" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="village" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="district" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="zip_code" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="address_type" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="transportation" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="latitude" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="longitude" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="father_nik" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="father_birth_year" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="father_education" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="father_work" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="father_income" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="mother_nik" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="mother_birth_year" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="mother_education" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="mother_work" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="mother_income" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="guardian_nik" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="guardian_birth_year" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="guardian_education" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="guardian_work" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="guardian_income" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<field name="email" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</field>
+	    		<page name="physical_data" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</page>
+	    		<page name="welfare_data" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</page>
+	    		<page name="other_data" position="attributes">
+	    			<attribute name="invisible">1</attribute>
+	    		</page>
+		    </field>
+		</record>
+	</data>
+</odoo>

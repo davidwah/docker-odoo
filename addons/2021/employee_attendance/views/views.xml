@@ -1,0 +1,47 @@
+<odoo>
+	<data>
+	<!-- Attendance View -->
+		<record id="employee_attendance_act" model="ir.actions.act_window">
+			<field name="name">Employee Attendance</field>
+			<field name="res_model">ase.attendance</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="employee_attendance_tree" model="ir.ui.view">
+			<field name="name">Employee Attendance Tree</field>
+			<field name="model">ase.attendance</field>
+			<field name="arch" type="xml">
+				<tree default_order="check_in desc">
+					<field name="pin"/>
+					<field name="employee_id"/>
+					<field name="check_in"/>
+					<field name="check_out"/>
+				</tree>
+			</field>
+		</record>
+
+	<!-- Employee Inherit -->
+		<record id="employee_inherit_form" model="ir.ui.view">
+			<field name="name">Employee Inherit Form</field>
+			<field name="model">asm.employee</field>
+			<field name="inherit_id" ref="employee.employee_form"/>
+			<field name="arch" type="xml">
+				<page name="salary_page" position="after">
+					<page name="attendance_page" string="Attendance">
+						<group col="4">
+							<field name="pin"/>
+							<field name="shift"/>
+						</group>
+						<group>
+							<field name="attendance_ids"/>
+						</group>
+					</page>
+				</page>
+			</field>
+		</record>
+
+	<!-- Menu Items -->
+		<menuitem id="employee_attendance.menu_root" name="Employee Attendance" groups="employee.group_hr_staff"/>
+		<menuitem id="employee_attendance_menu" name="Attendance" parent="employee_attendance.menu_root" action="employee_attendance_act"/>
+	</data>
+</odoo>

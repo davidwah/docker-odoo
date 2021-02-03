@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asm_inventory,access_asm_inventory,model_asm_inventory,base.group_user,1,1,1,1
+access_asi_history,access_asi_history,model_asi_history,base.group_user,1,1,1,1
+access_asw_inventory,access_asw_inventory,model_asw_inventories,base.group_user,1,1,1,1
+access_asi_report,access_asi_report,model_report_anugrah_school_inventory_inventory_recap_template,base.group_user,1,1,1,1

@@ -1,0 +1,221 @@
+<odoo>
+	<data>
+		<report id="income_report" model="asp.payment_records" string="Print Report" report_type="qweb-html" name="anugrah_school_payment.income_report_template"/>
+
+		<template id="income_report_template">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+							<div class="container my-5">
+								<h3 class="text-center">Tanda Terima Pembayaran</h3>
+								<hr class="my-5"/>
+								<div class="row">
+									<div class="col-6 text-right">Dengan kode transaksi</div> 
+									<div class="col-6">: <t t-esc="o.transaction_code"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Telah terima dari</div> 
+									<div class="col-6">
+										<t t-if="o.state in ['spp','dpp', 'kembang', 'form', 'development', 'reregister', 'book', 'trip', 'unas', 'extra']">: Orang Tua dari <t t-esc="o.student_id.full_name"/> (<t t-esc="o.student_nipd"/>) - Kelas <t t-esc="o.student_class"/></t>
+										<t t-if="o.state=='hardware'">: <t t-esc="o.student_id.full_name"/>(<t t-esc="o.student_class"/>)</t>
+										<t t-if="o.state=='canteen'">: Pemasukan Kantin</t>
+										<t t-if="o.state=='kawai'">: Pemasukan Kawai Piano</t>
+										<t t-if="o.state=='bos'">: Bantuan Operasional Sekolah</t>
+										<t t-if="o.state=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Uang sejumlah</div> 
+									<t t-if="o.spp_payment_type=='cash'">
+										<t t-if="o.state=='spp'">
+											<t t-set="total_payment" t-value="o.payment_value + o.spp_cash_fine"/>
+											<div class="col-6">: Rp. <t t-esc="total_payment"/></div>
+										</t>
+										<t t-else="">
+											<div class="col-6">: Rp. <t t-esc="o.payment_value"/></div>
+										</t>
+									</t>
+									<t t-else="">
+										<div class="col-6">: Rp. <t t-esc="o.payment_value"/></div>
+									</t>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Diterima pada</div> 
+									<div class="col-6">: <t t-esc="o.payment_date.strftime('%d %B %Y')"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Sebagai pembayaran</div> 
+									<div class="col-6"> 
+										<t t-if="o.state=='spp'">: SPP Periode <t t-esc="o.spp_month"/> <t t-esc="o.spp_year"/></t>
+										<t t-if="o.state=='dpp'">: DPP Cicilan ke-<t t-esc="o.dpp_payment_number"/></t>
+										<!-- Uang Pengembangan -->
+										<t t-if="o.state=='kembang'">: Pengembangan Cicilan ke-<t t-esc="o.kembang_payment_number"/></t>
+										<t t-if="o.state=='development'">: Uang Gedung</t>
+										<t t-if="o.state=='form'">: Formulir Pendaftaran</t>
+										<t t-if="o.state=='reregister'">: Uang Daftar Ulang</t>
+										<t t-if="o.state=='book'">: Pembayaran Buku Paket</t>
+										<t t-if="o.state=='hardware'">: Peralatan / Seragam Sekolah</t>
+										<t t-if="o.state=='bos'">: Dana BOS</t>
+										<t t-if="o.state=='unas'">: UNAS</t>
+										<t t-if="o.state=='extra'">: Extra</t>
+										<t t-if="o.state=='trip'">: Field Trip</t>
+										<t t-if="o.state=='canteen'">: Setoran Kantin</t>
+										<t t-if="o.state=='kawai'">: Setoran Kawai Piano</t>
+										<t t-if="o.state=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div class="row my-5">
+									<div class="col offset-10 text-right">Pihak Penerima</div> 
+								</div>
+								<br/>
+								<br/>
+								<br/>
+								<div class="row mt-5">
+									<div class="col offset-10 text-right"><t t-esc="o.receiver"/></div> 
+								</div>
+								<div class="row text-center">
+									<h6 class="col text-muted">Transaksi ini dibuat oleh <t t-esc="o.created_by.partner_id.name"/></h6>
+								</div>
+							</div>
+							<hr/>
+							<div class="container my-5">
+								<h3 class="text-center">Tanda Terima Pembayaran</h3>
+								<hr class="my-5"/>
+								<div class="row">
+									<div class="col-6 text-right">Dengan kode transaksi</div> 
+									<div class="col-6">: <t t-esc="o.transaction_code"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Telah terima dari</div> 
+									<div class="col-6">
+										<t t-if="o.state in ['spp','dpp', 'kembang', 'form', 'development', 'reregister', 'book', 'trip', 'unas', 'extra']">: Orang Tua dari <t t-esc="o.student_id.full_name"/> (<t t-esc="o.student_nipd"/>) - Kelas <t t-esc="o.student_class"/></t>
+										<t t-if="o.state=='hardware'">: <t t-esc="o.student_id.full_name"/>(<t t-esc="o.student_class"/>)</t>
+										<t t-if="o.state=='canteen'">: Pemasukan Kantin</t>
+										<t t-if="o.state=='kawai'">: Pemasukan Kawai Piano</t>
+										<t t-if="o.state=='bos'">: Bantuan Operasional Sekolah</t>
+										<t t-if="o.state=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Uang sejumlah</div> 
+									<t t-if="o.spp_payment_type=='cash'">
+										<t t-if="o.state=='spp'">
+											<t t-set="total_payment" t-value="o.payment_value + o.spp_cash_fine"/>
+											<div class="col-6">: Rp. <t t-esc="total_payment"/></div>
+										</t>
+										<t t-else="">
+											<div class="col-6">: Rp. <t t-esc="o.payment_value"/></div>
+										</t>
+									</t>
+									<t t-else="">
+										<div class="col-6">: Rp. <t t-esc="o.payment_value"/></div>
+									</t>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Diterima pada</div> 
+									<div class="col-6">: <t t-esc="o.payment_date.strftime('%d %B %Y')"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Sebagai pembayaran</div> 
+									<div class="col-6"> 
+										<t t-if="o.state=='spp'">: SPP Periode <t t-esc="o.spp_month"/> <t t-esc="o.spp_year"/></t>
+										<t t-if="o.state=='dpp'">: DPP Cicilan ke-<t t-esc="o.dpp_payment_number"/></t>
+										<!-- Uang Pengembangan -->
+										<t t-if="o.state=='kembang'">: Pengembangan Cicilan ke-<t t-esc="o.kembang_payment_number"/></t>
+										<t t-if="o.state=='development'">: Uang Gedung</t>
+										<t t-if="o.state=='form'">: Formulir Pendaftaran</t>
+										<t t-if="o.state=='reregister'">: Uang Daftar Ulang</t>
+										<t t-if="o.state=='book'">: Pembayaran Buku Paket</t>
+										<t t-if="o.state=='hardware'">: Peralatan / Seragam Sekolah</t>
+										<t t-if="o.state=='bos'">: Dana BOS</t>
+										<t t-if="o.state=='unas'">: UNAS</t>
+										<t t-if="o.state=='trip'">: Field Trip</t>
+										<t t-if="o.state=='extra'">: Extra</t>
+										<t t-if="o.state=='canteen'">: Setoran Kantin</t>
+										<t t-if="o.state=='kawai'">: Setoran Kawai Piano</t>
+										<t t-if="o.state=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div class="row my-5">
+									<div class="col offset-10 text-right">Pihak Penerima</div> 
+								</div>
+								<br/>
+								<br/>
+								<br/>
+								<div class="row mt-5">
+									<div class="col offset-10 text-right"><t t-esc="o.receiver"/></div> 
+								</div>
+								<div class="row text-center">
+									<h6 class="col text-muted">Transaksi ini dibuat oleh <t t-esc="o.created_by.partner_id.name"/></h6>
+								</div>
+							</div>
+						</div>
+						<div style="page-break-after:always;"></div>
+						<div class="container" t-if="o.state=='hardware'">
+							<h3>Transaction Code: <t t-esc="o.transaction_code"/></h3>
+							<div t-if="o.state=='hardware'" class="row">
+								<table class="table table-bordered">
+									<tr>
+										<th>No.</th>
+										<th>Nama Barang</th>
+										<th>Jumlah</th>
+										<th>Harga Satuan</th>
+										<th>Sub Total</th>
+									</tr>
+									<t t-set="number" t-value="1"/>
+									<t t-set="total" t-value="0"/>
+									<t t-foreach="o.item_ids" t-as="item">
+										<tr>
+											<td><t t-esc="number"/></td>
+											<td><t t-esc="item.inventory_id.name"/></td>
+											<td><t t-esc="item.quantity"/></td>
+											<td>Rp. <t t-esc="item.price"/></td>
+											<td>Rp. <t t-esc="item.subtotal"/></td>
+										</tr>
+										<t t-set="total" t-value="total + item.subtotal"/>
+										<t t-set="number" t-value="number + 1"/>
+									</t>
+									<tr>
+										<td colspan="4" class="text-right">Grand Total</td>
+										<td>Rp. <b><t t-esc="total"/></b></td>
+									</tr>
+								</table>
+							</div>
+							<hr/>
+							<h3>Transaction Code: <t t-esc="o.transaction_code"/></h3>
+							<div t-if="o.state=='hardware'" class="row">
+								<table class="table table-bordered">
+									<tr>
+										<th>No.</th>
+										<th>Nama Barang</th>
+										<th>Jumlah</th>
+										<th>Harga Satuan</th>
+										<th>Sub Total</th>
+									</tr>
+									<t t-set="number" t-value="1"/>
+									<t t-set="total" t-value="0"/>
+									<t t-foreach="o.item_ids" t-as="item">
+										<tr>
+											<td><t t-esc="number"/></td>
+											<td><t t-esc="item.inventory_id.name"/></td>
+											<td><t t-esc="item.quantity"/></td>
+											<td>Rp. <t t-esc="item.price"/></td>
+											<td>Rp. <t t-esc="item.subtotal"/></td>
+										</tr>
+										<t t-set="total" t-value="total + item.subtotal"/>
+										<t t-set="number" t-value="number + 1"/>
+									</t>
+									<tr>
+										<td colspan="4" class="text-right">Grand Total</td>
+										<td>Rp. <b><t t-esc="total"/></b></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

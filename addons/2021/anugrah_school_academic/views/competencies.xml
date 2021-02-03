@@ -1,0 +1,234 @@
+<odoo>
+	<data>
+		<record id="base_competency_act" model="ir.actions.act_window">
+			<field name="name">Kompetensi Dasar</field>
+			<field name="res_model">asc.base</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="base_competency_tree" model="ir.ui.view">
+			<field name="name">Base Competency Tree</field>
+			<field name="model">asc.base</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="name"/>
+					<field name="number"/>
+					<field name="description"/>
+					<field name="course_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="assesment_tree" model="ir.ui.view">
+			<field name="name">Assesment Tree</field>
+			<field name="model">asc.assesments</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="category_id" width="1"/>
+					<field name="description" width="1"/>
+					<field name="is_excellence" width="2"/>
+					<field name="is_good" width="2"/>
+					<field name="is_less" width="2"/>
+					<field name="is_lacking" width="2"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="assesment_note_tree" model="ir.ui.view">
+			<field name="name">Assesment Notes Tree</field>
+			<field name="model">asc.asses_notes</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="category_id"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="assesment_category_tree" model="ir.ui.view">
+			<field name="name">Assesment Category Tree</field>
+			<field name="model">asc.categories</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="title"/>
+					<field name="subtitle"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="attitudes_tree" model="ir.ui.view">
+			<field name="name">Attitude Tree</field>
+			<field name="model">asc.attitudes</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="spiritual_final_grade"/>
+					<field name="social_final_grade"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="grades_tree" model="ir.ui.view">
+			<field name="name">Grades Tree</field>
+			<field name="model">asc.grades</field>
+			<field name="arch" type="xml">
+				<tree name="grades_tree">
+					<field name="course_id"/>
+					<field name="knowledge_final_grade"/>
+					<field name="knowledge_predicate"/>
+					<field name="skill_final_grade"/>
+					<field name="skill_predicate"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="spiritual_tree" model="ir.ui.view">
+			<field name="name">Spiritual Tree</field>
+			<field name="model">asc.spirituals</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="competency_id"/>
+					<field name="grade"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="social_tree" model="ir.ui.view">
+			<field name="name">Social Tree</field>
+			<field name="model">asc.socials</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="competency_id"/>
+					<field name="grade"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="knowledge_tree" model="ir.ui.view">
+			<field name="name">Knowledge Tree</field>
+			<field name="model">asc.knowledges</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="course_id" invisible="1"/>
+					<field name="competency_id"/>
+					<field name="daily_one"/>
+					<field name="daily_two"/>
+					<field name="daily_three"/>
+					<field name="daily_average"/>
+					<field name="remedial"/>
+					<field name="mid_term"/>
+					<field name="final_term"/>
+					<field name="final_grade"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="skill_tree" model="ir.ui.view">
+			<field name="name">Skills Tree</field>
+			<field name="model">asc.skills</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="course_id" invisible="1"/>
+					<field name="competency_id"/>
+					<field name="practice_one"/>
+					<field name="practice_two"/>
+					<field name="product_one"/>
+					<field name="product_two"/>
+					<field name="project_one"/>
+					<field name="project_two"/>
+					<field name="portfolio"/>
+					<field name="final_grade"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="assesment_category_form" model="ir.ui.view">
+			<field name="name">Assesment Category Form</field>
+			<field name="model">asc.categories</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<field name="name"/>
+						</group>
+						<group>
+							<field name="title"/>
+							<field name="subtitle"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="attitudes_form" model="ir.ui.view">
+			<field name="name">Attitudes Form</field>
+			<field name="model">asc.attitudes</field>
+			<field name="arch" type="xml">
+				<form name="attitudes_form">
+					<sheet>
+						<notebook>
+							<page string="KI 1">
+								<group col="2">
+									<group col="2">
+										<field name="spiritual_final_grade"/>
+									</group>
+									<field name="spiritual_ids"/>
+								</group>
+							</page>
+							<page string="KI 2">
+								<group col="2">
+									<group col="2">
+										<field name="social_final_grade"/>
+									</group>
+									<field name="social_ids"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="grades_form" model="ir.ui.view">
+			<field name="name">Grades Form</field>
+			<field name="model">asc.grades</field>
+			<field name="arch" type="xml">
+				<form name="grades_form">
+					<sheet>
+						<field name="user_id" invisible="1"/>
+						<field name="can_access" invisible="1"/>
+						<field name="report_id" invisible="1"/>
+						<group col="2">
+							<group col="2">
+								<field name="course_id"/>
+								<field name="grade_range_id"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="KI 3">
+								<group col="2">
+									<group col="2">
+										<field name="knowledge_final_grade"/>
+										<field name="knowledge_predicate"/>
+									</group>
+									<field name="knowledge_ids" context="{'default_course_id': course_id}"/>
+								</group>
+							</page>
+							<page string="KI 4">
+								<group col="2">
+									<group col="2">
+										<field name="skill_final_grade"/>
+										<field name="knowledge_predicate"/>
+									</group>
+									<field name="skill_ids" context="{'default_course_id': course_id}"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<menuitem id="base_competency_menu" name="Kompetensi Dasar" parent="anugrah_school_academic.root_menu" action="base_competency_act"/>
+	</data>
+</odoo>

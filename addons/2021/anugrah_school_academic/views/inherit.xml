@@ -1,0 +1,189 @@
+<odoo>
+	<data>
+		<record id="user_inherit_form" model="ir.ui.view">
+			<field name="name">User Inherit Form</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_form"/>
+			<field name="arch" type="xml">
+				<page name="access_rights" position="inside">
+					<group col="2">
+						<field name="course_id"/>
+					</group>
+				</page>
+			</field>
+		</record>
+
+		<record id="inherit_teacher_report_tree" model="ir.ui.view">
+		    <field name="name">Inherit Teacher Report Tree</field>
+		    <field name="model">asa.reports</field>
+		    <field name="inherit_id" ref="report_tree"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_guru')])]"/>
+		    <field name="arch" type="xml">
+		    	<tree name="report_tree" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</tree>
+		    </field>
+		</record>
+
+		<record id="inherit_teacher_report_form" model="ir.ui.view">
+		    <field name="name">Inherit Teacher Report Form</field>
+		    <field name="model">asa.reports</field>
+		    <field name="inherit_id" ref="report_form"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_guru')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="report_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+				<field name="student_id" position="attributes">
+					<attribute name="readonly">1</attribute>
+					<attribute name="options">{'no_open': True}</attribute>
+				</field>
+				<field name="term_id" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="semester" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="graduated" attrs="{'invisible': [('semester', '=', 'odd')]}" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="report_date" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="attitude_id" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="health_welfare_ids" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="prestige_ids" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="advices" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+		    </field>
+		</record>
+
+		<record id="inherit_teacher_grade_form" model="ir.ui.view">
+		    <field name="name">Inherit Teacher Grade Form</field>
+		    <field name="model">asc.grades</field>
+		    <field name="inherit_id" ref="grades_form"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_guru')])]"/>
+		    <field name="arch" type="xml">
+		    	<field name="grade_range_id" position="attributes">
+		    		<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+		    	</field>
+				<field name="knowledge_ids" context="{'default_course_id': course_id}" position="attributes">
+		    		<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+		    	</field>
+				<field name="skill_ids" context="{'default_course_id': course_id}" position="attributes">
+		    		<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+		    	</field>
+		    </field>
+		</record>
+
+		<record id="inherit_teacher_attitude_form" model="ir.ui.view">
+		    <field name="name">Inherit Teacher Attitude Form</field>
+		    <field name="model">asc.attitudes</field>
+		    <field name="inherit_id" ref="attitudes_form"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_guru')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="attitudes_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+		    </field>
+		</record>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+		<record id="inherit_homeroom_report_form" model="ir.ui.view">
+		    <field name="name">Inherit Homeroom Report Form</field>
+		    <field name="model">asa.reports</field>
+		    <field name="inherit_id" ref="report_form"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_wali_kelas')])]"/>
+		    <field name="arch" type="xml">
+				<field name="grade_ids" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</field>
+				<field name="student_id" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+					<attribute name="options">{'no_open': True}</attribute>
+				</field>
+				<field name="term_id" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="semester" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="graduated" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)], 'invisible': [('semester', '=', 'odd')]}</attribute>
+				</field>
+				<field name="report_date" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="attitude_id" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="health_welfare_ids" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="prestige_ids" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+				<field name="advices" position="attributes">
+					<attribute name="attrs">{'readonly': [('can_access', '=', False)]}</attribute>
+				</field>
+		    </field>
+		</record>
+
+		<record id="inherit_homeroom_grade_tree" model="ir.ui.view">
+		    <field name="name">Inherit Homeroom Grade Tree</field>
+		    <field name="model">asc.grades</field>
+		    <field name="inherit_id" ref="grades_tree"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_wali_kelas')])]"/>
+		    <field name="arch" type="xml">
+		    	<tree name="grades_tree" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</tree>
+		    </field>
+		</record>
+
+		<record id="inherit_homeroom_grade_form" model="ir.ui.view">
+		    <field name="name">Inherit Homeroom Grade Form</field>
+		    <field name="model">asc.grades</field>
+		    <field name="inherit_id" ref="grades_form"/>
+		    <field name="groups_id" eval="[(6, 0, [ref('anugrah_school_master.as_wali_kelas')])]"/>
+		    <field name="arch" type="xml">
+		    	<form name="grades_form" position="attributes">
+		    		<attribute name="create">false</attribute>
+		    		<attribute name="edit">false</attribute>
+		    		<attribute name="delete">false</attribute>
+		    	</form>
+		    </field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id='pg_company' model="res.company">
+            <field name="name">PG Anugerah School</field>
+            <field name="street">Kawasan Sentra Niaga Blok RE 29-31, Citra Garden</field>
+            <field name="city">Sidoarjo</field>
+            <field name="zip">61252</field>
+            <field name="website">https://anugerahschool.sch.id/pg-tk/</field>
+            <field name="phone">(031) 8073097</field>
+            <field name="email">info@anugerahschool.sch.id</field>
+        </record>
+
+        <record id='tk_company' model="res.company">
+            <field name="name">TK Anugerah School</field>
+            <field name="street">Kawasan Sentra Niaga Blok RE 29-31, Citra Garden</field>
+            <field name="city">Sidoarjo</field>
+            <field name="zip">61252</field>
+            <field name="website">https://anugerahschool.sch.id/pg-tk/</field>
+            <field name="phone">(031) 8073097</field>
+            <field name="email">info@anugerahschool.sch.id</field>
+        </record>
+
+        <record id='sd_company' model="res.company">
+            <field name="name">SD Anugerah School</field>
+            <field name="street">Kawasan Sentra Niaga Blok RE 29-31, Citra Garden</field>
+            <field name="city">Sidoarjo</field>
+            <field name="zip">61252</field>
+            <field name="website">https://anugerahschool.sch.id/sekolah-dasar/</field>
+            <field name="phone">(031) 8073097</field>
+            <field name="email">info@anugerahschool.sch.id</field>
+        </record>
+
+        <record id='smp_company' model="res.company">
+            <field name="name">SMP Anugerah School</field>
+            <field name="street">Kawasan Sentra Niaga Blok RE 29-31, Citra Garden</field>
+            <field name="city">Sidoarjo</field>
+            <field name="zip">61252</field>
+            <field name="website">https://anugerahschool.sch.id/smp/</field>
+            <field name="phone">(031) 8073097</field>
+            <field name="email">info@anugerahschool.sch.id</field>
+        </record>
+    </data>
+</odoo>

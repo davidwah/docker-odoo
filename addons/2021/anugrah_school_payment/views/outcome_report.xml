@@ -1,0 +1,179 @@
+<odoo>
+	<data>
+		<report id="outcome_report" model="asp.payment_expenses" string="Print Report" report_type="qweb-html" name="anugrah_school_payment.outcome_report_template"/>
+
+		<template id="outcome_report_template">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+							<div class="container my-5">
+								<h3 class="text-center">Tanda Terima Pembayaran</h3>
+								<hr class="my-5"/>
+								<div class="row">
+									<div class="col-6 text-right">Dengan kode transaksi</div> 
+									<div class="col-6">: <t t-esc="o.transaction_code"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Atas nama</div>
+									<div class="col-6">: <t t-esc="o.receiver"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Telah menerima dana sejumlah</div>
+									<div class="col-6">: <t t-esc="o.payment_value"/></div>
+									</div>
+								<div class="row">
+									<div class="col-6 text-right">Pada tanggal</div>
+									<div class="col-6">: <t t-esc="o.payment_date.strftime('%d %B %Y')"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Sebagai dana untuk</div>
+									<div class="col-6">
+										<t t-if="o.expense_category=='hardware'">: Pembelian Peralatan / Perabotan Penunjang Fasilitas</t>
+										<t t-if="o.expense_category=='payroll'">: Gaji Bapak/Ibu <t t-esc="o.receiver"/></t>
+										<t t-if="o.expense_category=='electrical'">: Pembayaran Listrik</t>
+										<t t-if="o.expense_category=='internet'">: Pembayaran Internet</t>
+										<t t-if="o.expense_category=='renovation'">: Pembangunan / Renovasi Gedung</t>
+										<t t-if="o.expense_category=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div t-if="o.expense_category=='hardware'" class="row">
+									<div class="col-6 text-right">Dengan daftar pembelian sebagai berikut:</div>
+									<div class="col-6"></div>
+								</div>
+								<div t-if="o.expense_category=='hardware'" class="row">
+									<div class="col-6 offset-3">
+										<t t-set="grandtotal" t-value="0"/>
+										<table class="table">
+											<thead>
+												<tr>
+													<th>Nama Barang</th>
+													<th>Jumlah</th>
+													<th>Harga</th>
+													<th class='text-right'>Pajak</th>
+													<th class='text-right'>Subtotal</th>
+												</tr>
+											</thead>
+											<tbody>
+												<t t-foreach="o.item_ids" t-as="x">
+													<t t-set="grandtotal" t-value="grandtotal + x.subtotal"/>
+													<tr>
+														<td><t t-esc="x.inventory_id.name"/></td>
+														<td><t t-esc="x.quantity"/></td>
+														<td><t t-esc="x.price"/></td>
+														<td class='text-right'><t t-esc="x.tax"/></td>
+														<td class='text-right'><t t-esc="x.subtotal"/></td>
+													</tr>
+												</t>
+											</tbody>
+											<tfooter>
+												<tr>
+													<td class="text-right" colspan="4">Grand Total</td>
+													<td class='text-right'><t t-esc="grantotal"/></td>
+												</tr>
+											</tfooter>
+										</table>
+									</div>
+								</div>
+								<div class="row my-5">
+									<div class="col offset-10 text-right">Pihak Penerima</div> 
+								</div>
+								<br/>
+								<br/>
+								<br/>
+								<div class="row mt-5">
+									<div class="col offset-10 text-right"><t t-esc="o.receiver"/></div> 
+								</div>
+								<div class="row text-center">
+									<h6 class="col text-muted">Transaksi ini dibuat oleh <t t-esc="o.created_by.partner_id.name"/></h6>
+								</div>
+							</div>
+							<hr/>
+							<div class="container my-5">
+								<h3 class="text-center">Tanda Terima Pembayaran</h3>
+								<hr class="my-5"/>
+								<div class="row">
+									<div class="col-6 text-right">Dengan kode transaksi</div> 
+									<div class="col-6">: <t t-esc="o.transaction_code"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Atas nama</div>
+									<div class="col-6">: <t t-esc="o.receiver"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Telah menerima dana sejumlah</div>
+									<div class="col-6">: <t t-esc="o.payment_value"/></div>
+									</div>
+								<div class="row">
+									<div class="col-6 text-right">Pada tanggal</div>
+									<div class="col-6">: <t t-esc="o.payment_date.strftime('%d %B %Y')"/></div>
+								</div>
+								<div class="row">
+									<div class="col-6 text-right">Sebagai dana untuk</div>
+									<div class="col-6">
+										<t t-if="o.expense_category=='hardware'">: Pembelian Peralatan / Perabotan Penunjang Fasilitas</t>
+										<t t-if="o.expense_category=='payroll'">: Gaji Bapak/Ibu <t t-esc="o.receiver"/></t>
+										<t t-if="o.expense_category=='electrical'">: Pembayaran Listrik</t>
+										<t t-if="o.expense_category=='internet'">: Pembayaran Internet</t>
+										<t t-if="o.expense_category=='renovation'">: Pembangunan / Renovasi Gedung</t>
+										<t t-if="o.expense_category=='other'">: Lain-lainnya</t>
+									</div>
+								</div>
+								<div t-if="o.expense_category=='hardware'" class="row">
+									<div class="col-6 text-right">Dengan daftar pembelian sebagai berikut:</div>
+									<div class="col-6"></div>
+								</div>
+								<div t-if="o.expense_category=='hardware'" class="row">
+									<div class="col-6 offset-3">
+										<t t-set="grandtotal" t-value="0"/>
+										<table class="table">
+											<thead>
+												<tr>
+													<th>Nama Barang</th>
+													<th>Jumlah</th>
+													<th>Harga</th>
+													<th class='text-right'>Pajak</th>
+													<th class='text-right'>Subtotal</th>
+												</tr>
+											</thead>
+											<tbody>
+												<t t-foreach="o.item_ids" t-as="x">
+													<t t-set="grandtotal" t-value="grandtotal + x.subtotal"/>
+													<tr>
+														<td><t t-esc="x.inventory_id.name"/></td>
+														<td><t t-esc="x.quantity"/></td>
+														<td><t t-esc="x.price"/></td>
+														<td class='text-right'><t t-esc="x.tax"/></td>
+														<td class='text-right'><t t-esc="x.subtotal"/></td>
+													</tr>
+												</t>
+											</tbody>
+											<tfooter>
+												<tr>
+													<td class="text-right" colspan="4">Grand Total</td>
+													<td class='text-right'><t t-esc="grantotal"/></td>
+												</tr>
+											</tfooter>
+										</table>
+									</div>
+								</div>
+								<div class="row my-5">
+									<div class="col offset-10 text-right">Pihak Penerima</div> 
+								</div>
+								<br/>
+								<br/>
+								<br/>
+								<div class="row mt-5">
+									<div class="col offset-10 text-right"><t t-esc="o.receiver"/></div> 
+								</div>
+								<div class="row text-center">
+									<h6 class="col text-muted">Transaksi ini dibuat oleh <t t-esc="o.created_by.partner_id.name"/></h6>
+								</div>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

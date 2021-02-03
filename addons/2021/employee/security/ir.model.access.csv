@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee,access_employee,model_asm_employee,employee.group_hr_staff,1,1,1,1
+access_salary,access_salary,model_ase_salary,employee.group_employee_manager,1,1,1,1
+access_salary_category,access_salary_category,model_ase_salary_category,employee.group_employee_manager,1,1,1,1

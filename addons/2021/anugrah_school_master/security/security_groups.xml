@@ -1,0 +1,25 @@
+<odoo>
+	<data>
+        <record id="as_administrator" model="res.groups">
+            <field name="name">Administrator</field>
+        </record>
+        <record id="as_tata_usaha" model="res.groups">
+            <field name="name">Tata Usaha</field>
+        </record>
+        <record id="as_operator" model="res.groups">
+            <field name="name">Operator</field>
+        </record>
+        <record id="as_kepsek" model="res.groups">
+            <field name="name">Kepala Sekolah</field>
+        </record>
+        <record id="as_guru" model="res.groups">
+            <field name="name">Guru Pelajaran</field>
+        </record>
+        <record id="as_wali_kelas" model="res.groups">
+            <field name="name">Wali Kelas</field>
+        </record>
+        <record id="as_orang_tua" model="res.groups">
+            <field name="name">Orang Tua Siswa</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asm_students,access_asm_students,model_asm_students,base.group_user,1,1,1,1
+access_asm_classes,access_asm_classes,model_asm_classes,base.group_user,1,1,1,1
+access_module_kepsek,access_module_kepsek,base.model_ir_module_module,as_kepsek,1,1,1,1
+access_module_admin,access_module_admin,base.model_ir_module_module,as_administrator,1,1,1,1
+access_module_tu,access_module_tu,base.model_ir_module_module,as_tata_usaha,1,1,1,1
+access_module_operator,access_module_operator,base.model_ir_module_module,as_operator,1,1,1,1

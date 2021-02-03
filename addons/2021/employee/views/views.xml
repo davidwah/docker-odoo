@@ -1,0 +1,95 @@
+<odoo>
+	<data>
+	<!-- Employee View -->
+		<record id="employee_act" model="ir.actions.act_window">
+			<field name="name">Employee List</field>
+			<field name="res_model">asm.employee</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="employee_tree" model="ir.ui.view">
+			<field name="name">Employee Tree</field>
+			<field name="model">asm.employee</field>
+			<field name="arch" type="xml">
+				<tree default_order="name asc">
+					<field name="name"/>
+					<field name="address"/>
+					<field name="email"/>
+					<field name="phone"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="employee_form" model="ir.ui.view">
+			<field name="name">Employee Form</field>
+			<field name="model">asm.employee</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<field name="name"/>
+						</group>
+						<notebook>
+							<page string="Contact &amp; Address">
+								<group>
+									<group>
+										<field name="address"/>
+										<field name="email"/>
+										<field name="phone"/>
+										<field name="user_id"/>
+									</group>
+								</group>
+							</page>
+							<page name="salary_page" string="Salary" groups="employee.group_employee_manager">
+								<group>
+									<group>
+										<field name="base_salary"/>
+										<field name="attendance_salary"/>
+										<field name="overtime_salary"/>
+									</group>
+									<group>
+									</group>
+									<field name="other_salary_ids"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	<!-- Salary View -->
+		<record id="salary_category_act" model="ir.actions.act_window">
+			<field name="name">Salary Categories</field>
+			<field name="res_model">ase.salary_category</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="salary_category_tree" model="ir.ui.view">
+			<field name="name">Salary Category Tree</field>
+			<field name="model">ase.salary_category</field>
+			<field name="arch" type="xml">
+				<tree editable="top" default_order="id desc">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+	<!-- Salary Category View -->
+		<record id="salary_tree" model="ir.ui.view">
+			<field name="name">Salary Tree</field>
+			<field name="model">ase.salary</field>
+			<field name="arch" type="xml">
+				<tree editable="top" default_order="name asc">
+					<field name="name"/>
+					<field name="amount"/>
+				</tree>
+			</field>
+		</record>
+
+	<!-- Menu Items -->
+		<menuitem id="employee.menu_root" name="Employee Management" groups="employee.group_hr_staff"/>
+		<menuitem id="employee_menu" name="Employees" parent="employee.menu_root" action="employee_act" sequence="0"/>
+		<menuitem id="salary_category_menu" name="Salary Category" parent="employee.menu_root" action="salary_category_act" groups="employee.group_employee_manager" sequence="1"/>
+	</data>
+</odoo>

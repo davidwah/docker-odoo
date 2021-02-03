@@ -1,0 +1,89 @@
+<odoo>
+	<data>
+		<report id="student_acceptance_letter" model="asm.students" string="Student Acceptance Letter" report_type="qweb-html" name="anugrah_school_master.student_letter_template"/>
+
+		<template id="student_letter_template">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+						    <div class="text-right px-3">Surabaya, <t t-esc="o.create_date.strftime('%d %B %Y')"/></div>
+  							<div class="px-3">Perihal: <b>Penerimaan Siswa Baru Anugerah School</b></div>
+  							<t t-if="o.father_name != False">
+	  							<t t-if="o.mother_name != False">
+	  								<div class="px-3">Kepada Yth: <t t-esc="'Bp. %s / Ibu %s' % (o.father_name, o.mother_name)"/></div>
+	  							</t>
+	  							<t t-else="">
+	  								<div class="px-3">Kepada Yth: <t t-esc="'Bp. %s' % o.father_name"/></div>
+	  							</t>
+  							</t>
+  							<t t-else="">
+  								<t t-if="o.mother_name != False">
+	  								<div class="px-3">Kepada Yth: <t t-esc="'Ibu %s' % o.mother_name"/></div>
+	  							</t>
+	  							<t t-else="">
+	  								<t t-if="o.guardian_name != False">
+	  									<div class="px-3">Kepada Yth: <t t-esc="'Bp./Ibu Wali %s' % o.guardian_name"/></div>
+	  								</t>
+	  								<t t-else="">
+	  									<div class="px-3">Kepada Yth: <t t-esc="'Orang Tua / Wali dari %s' % o.full_name"/></div>
+	  								</t>
+	  							</t>
+  							</t>
+  							<div class="px-3"><t t-esc="o.address"/></div>
+  							<div class="px-3 mb-2">Sidoarjo</div>
+  							<div class="mb-3">Dengan hormat,</div>
+  							<div class="px-5">Terima kasih atas kepercayaan Bapak/Ibu kepada Anugerah School, Sidoarjo untuk memberikan pendidikan terbaik bagi putra/i-nya. Selamat atas diterimanya putra/i Bapak/Ibu bernama <b><t t-esc="o.full_name"/></b> pada jenjang <b><t t-esc="o.stage[2:]"/></b> di kelas <t t-esc="o.current_class"/>.</div>
+  							<div class="px-5">Berikut adalah perincian biaya yang harus dibayar oleh pihak orang tua siswa:</div>
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya SPP</h3>
+	  							<div class="px-3 text-center">Biaya Total SPP Tahun Ajaran Ini: Rp. <t t-esc="o.spp_total"/></div>
+	  							<div class="px-3 text-center"><b>*Jika Bapak / Ibu memiliki kesulitan dalam membayar SPP</b> sekaligus, disediakan cara pembayaran cicilan per bulan selama tahun ajaran dengan biaya:</div>
+	  							<div class="px-3 text-center">Biaya Cicilan SPP / Bulan: Rp. <t t-esc="o.spp_monthly"/></div>
+  							</div>
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya Uang Pendidikan Dasar</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.base_dpp"/></div>
+  							</div>
+							
+							<!-- Uang Pengembangan -->
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Uang Pengembangan</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.base_kembang"/></div>
+  							</div>
+
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya Uang Gedung</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.development_price"/></div>
+  							</div>
+							
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya Uang Formulir</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.form_price"/></div>
+  							</div>
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya Uang Daftar Ulang</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.reregistration_price"/></div>
+  							</div>
+  							<div class="py-3">
+	  							<h3 class="px-3 text-center">Biaya Uang Buku Paket</h3>
+	  							<div class="px-3 text-center">Rp. <t t-esc="o.book_price"/></div>
+  							</div>
+  							<div class="my-5">
+  								<b>Harap membaca perincian biaya-biaya di atas dengan teliti</b>. Apabila terdapat kesalahan cetak dari apa yang sudah disepakati, harap hubungi Tata Usaha Anugerah School. <b>Dengan menandatangani surat ini, pihak orang tua siswa telah menyetujui perincian dana yang tertera di atas, dan apabila calon siswa membatalkan diri atau tidak jadi masuk menjadi siswa di Anugerah School maka segala pembayaran oleh orang tua yang telah dilakukan tidak dapat diminta kembali.</b>
+  							</div>
+  							<div class="row mt-3 mb-5">
+								<div class="col-md-3 text-left">Anugerah School Sidoarjo</div>
+								<div class="col-md-9 text-right">Pihak Orang Tua  dari <b><t t-esc="o.full_name"/></b></div>
+  							</div>
+  							<div class="row mt-5">
+								<div class="col-md-3 text-left">Bagian Keuangan</div>
+								<div class="col-md-9 text-right">Tanda Tangan + Nama Terang</div>
+  							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>
